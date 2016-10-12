@@ -94,7 +94,7 @@ describe("selectFoodCoords()", function(){
 
 describe("replenishFood()", function(){
 
-  it('should make a good object with x, y coords', function(){
+  it('should make a food object with x, y coords', function(){
     let canvas = stub();
     canvas.width = 100;
     canvas.height = 100;
@@ -104,6 +104,55 @@ describe("replenishFood()", function(){
     assert.isObject(newFood)
     assert(newFood.x)
     assert(newFood.y)
+  });
+
+  it('should replenish food when food is null', function(){
+    let canvas = stub();
+    canvas.width = 100;
+    canvas.height = 100;
+    let context = stub();
+    let game = new Game(canvas, context);
+    let newFood = game.replenishFood();
+    assert.isObject(game.food)
+  });
+
+  it('should not replenish food when it has food and snake location is different', function(){
+    let canvas = stub();
+    canvas.width = 100;
+    canvas.height = 100;
+    let context = stub();
+    let game = new Game(canvas, context);
+    game.food = new Food(10, 20)
+
+    assert.equal(game.food.x, 10);
+    assert.equal(game.food.y, 20);
+
+    game.replenishFood();
+
+    assert.equal(game.food.x, 10);
+    assert.equal(game.food.y, 20);
+  });
+
+  it('should replenish food when snake hits food', function(){
+    let canvas = stub();
+    canvas.width = 100;
+    canvas.height = 100;
+    let context = stub();
+    let game = new Game(canvas, context);
+    game.food = new Food(60, 50)
+    game.snake.direction = "right"
+
+    assert(game.food.x === 60 && game.food.y === 50)
+
+    game.snake.moveSnake();
+    assert.equal(game.snake.head.x, 60);
+    assert.equal(game.snake.head.y, 50);
+
+    game.replenishFood();
+
+    assert(!(game.food.x === 60 && game.food.y === 50))
+    assert(game.food)
+
   });
 
 });
