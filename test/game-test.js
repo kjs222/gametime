@@ -58,8 +58,8 @@ describe("getRandomCoords()", function(){
     let context = stub();
     let game = new Game(canvas, context);
     var coords = game.getRandomCoords();
-    assert.isBelow(coords.x, game.canvas.width)
-    assert.isBelow(coords.y, game.canvas.height)
+    assert.isBelow(coords.x, game.canvas.width - 9)
+    assert.isBelow(coords.y, game.canvas.height - 9)
     assert.isAbove(coords.x, 0)
     assert.isAbove(coords.y, 0)
   });
