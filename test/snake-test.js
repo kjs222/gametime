@@ -75,7 +75,7 @@ describe("moveSnake()", function(){
 
       assert.equal(snake.head.x, 50);
       assert.equal(snake.head.y, 50);
-      assert.equal(snake.tail.x, 60);
+      assert.equal(snake.tail.x, 40);
       assert.equal(snake.tail.y, 50);
 
       snake.moveSnake();
