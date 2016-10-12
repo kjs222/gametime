@@ -111,7 +111,7 @@ describe("moveSnake()", function(){
         let snake = new Snake();
         assert.equal(snake.head.x, 50);
         assert.equal(snake.head.y, 50);
-        assert.equal(snake.occupiedCoordinates(), [{x: 50, y: 50}]);
+        assert.deepEqual(snake.occupiedCoordinates(), [{x: 50, y: 50}]);
       })
 
       it("returns correct list for multi segment snake", function() {
@@ -122,7 +122,9 @@ describe("moveSnake()", function(){
         assert.equal(snake.head.y, 50);
         assert.equal(snake.tail.x, 48);
         assert.equal(snake.tail.y, 50);
-        assert.equal(snake.occupiedCoordinates(), [{x: 48, y: 50}, {x: 50, y: 50}]);
+        assert.deepEqual(snake.occupiedCoordinates(), [{x: 48, y: 50}, {x: 50, y: 50}]);
+        // assert.equal(snake.occupiedCoordinates(), snake.occupiedCoordinates());
+
       })
     })
   })
