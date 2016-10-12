@@ -1,7 +1,9 @@
 const chai = require('chai');
 const assert = chai.assert;
+const stub = require('./support/stub')
 
 const Render = require('../lib/render')
+const Segment = require('../lib/segment')
 
 describe("Render", function(){
 
@@ -25,5 +27,17 @@ describe("Render", function(){
       let render =new Render(canvas, context);
       assert.equal(render.context, context)
     })
+  })
+})
+
+
+describe("drawSegment()", function(){
+
+  it("should call strokeRect on the canvas", function(){
+    let context = stub().of("strokeRect");
+    let render = new Render("canvas", context);
+    let segment = new Segment(10, 10);
+    render.drawSegment(segment);
+    assert.equal(render.context.strokeRect.calls.length, 1);
   })
 })
