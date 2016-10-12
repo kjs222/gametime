@@ -1,5 +1,6 @@
 const chai = require('chai');
 const assert = chai.assert;
+const stub = require('./support/stub')
 
 const Game = require('../lib/game');
 const Snake = require('../lib/snake');
@@ -33,18 +34,16 @@ describe("Game", function(){
 
   context("with passed in values", function(){
     it('should have a canvas', function(){
-      let game = new Game(document.getElementById('canvas'));
-      assert.isNull(game.canvas)
+      let canvas = stub();
+      let game = new Game(canvas);
+      assert.isObject(game.canvas);
     })
 
     it('should have a context', function(){
-      let canvas = document.getElementById('canvas')
-      let game = new Game(canvas.getContext('2d'));
-      assert.isNull(game.context)
+      let canvas = stub();
+      let context = stub();
+      let game = new Game(canvas, context);
+      assert.isObject(game.context);
     })
-
-    // failed test. Because canvas in null in this instance,
-    // context cannot be called on the canvas.
-    // How do we test this?
   })
 })
