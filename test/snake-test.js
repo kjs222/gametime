@@ -182,4 +182,28 @@ describe("moveSnake()", function(){
       assert.equal(snake.tail.y, 40);
     })
   })
+
+  describe("occupiedCoordinates()", function() {
+
+    context("returns list of snake's occupied coords", function(){
+
+      it("returns correct list for single segment snake", function() {
+        let snake = new Snake();
+        assert.equal(snake.head.x, 50);
+        assert.equal(snake.head.y, 50);
+        assert.deepEqual(snake.occupiedCoordinates(), [{x: 50, y: 50}]);
+      })
+
+      it("returns correct list for multi segment snake", function() {
+        let snake = new Snake();
+        snake.direction = "right";
+        snake.addSegment();
+        assert.equal(snake.head.x, 50);
+        assert.equal(snake.head.y, 50);
+        assert.equal(snake.tail.x, 40);
+        assert.equal(snake.tail.y, 50);
+        assert.deepEqual(snake.occupiedCoordinates(), [{x: 40, y: 50}, {x: 50, y: 50}]);
+      })
+    })
+  })
 })
