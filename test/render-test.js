@@ -21,7 +21,6 @@ describe("Render", function(){
       let canvas = document.createElement("canvas")
       let render =new Render(canvas, "context");
       assert.equal(render.canvas, canvas)
-      // assert.typeOf(render.canvas, <canvas></canvas>)
     })
 
     it("instantiates with a context", function(){
@@ -62,8 +61,8 @@ describe("drawFood()", function(){
     it("should call fillRect on the canvas", function(){
       let context = stub().of("fillRect");
       let render = new Render("canvas", context);
-      let food = new Food(10, 10);
+      let food = { 0: new Food(10, 10), 1: new Food(20, 30) };
       render.drawFood(food);
-      assert.equal(render.context.fillRect.calls.length, 1);
+      assert.equal(render.context.fillRect.calls.length, 2);
     })
 })
