@@ -1,8 +1,10 @@
 const chai = require('chai');
 const assert = chai.assert;
+const stub = require('./support/stub')
 
 const Snake = require('../lib/snake');
 const Segment = require('../lib/segment');
+const Game = require('../lib/game');
 
 describe("Snake", function(){
 
@@ -49,136 +51,152 @@ describe("setDirection()", function(){
 })
 
 describe("moveHead()", function(){
+  let canvas = stub();
+  canvas.width = 100;
+  canvas.height = 100;
+  let game = new Game(canvas);
 
   context("moves in a set direction", function(){
 
     it('it moves left', function(){
-      let snake = new Snake()
-      assert.equal(snake.head.x, 50);
-      assert.equal(snake.head.y, 50);
+      let snake = new Snake(game);
+
+      assert.equal(snake.head.x, 60);
+      assert.equal(snake.head.y, 60);
       snake.direction = 'left';
       snake.moveHead();
       assert.equal(snake.head.x, 40);
-      assert.equal(snake.head.y, 50);
+      assert.equal(snake.head.y, 60);
     })
 
     it('it moves right', function(){
-      let snake = new Snake()
-      assert.equal(snake.head.x, 50);
-      assert.equal(snake.head.y, 50);
+      let snake = new Snake(game);
+
+      assert.equal(snake.head.x, 60);
+      assert.equal(snake.head.y, 60);
       snake.direction = 'right';
       snake.moveHead();
-      assert.equal(snake.head.x, 60);
-      assert.equal(snake.head.y, 50);
+      assert.equal(snake.head.x, 80);
+      assert.equal(snake.head.y, 60);
     })
 
     it('it moves up', function(){
-      let snake = new Snake()
-      assert.equal(snake.head.x, 50);
-      assert.equal(snake.head.y, 50);
+      let snake = new Snake(game);
+
+      assert.equal(snake.head.x, 60);
+      assert.equal(snake.head.y, 60);
       snake.direction = 'up';
       snake.moveHead();
-      assert.equal(snake.head.x, 50);
+      assert.equal(snake.head.x, 60);
       assert.equal(snake.head.y, 40);
     })
 
     it('it moves down', function(){
-      let snake = new Snake()
-      assert.equal(snake.head.x, 50);
-      assert.equal(snake.head.y, 50);
+      let snake = new Snake(game);
+
+      assert.equal(snake.head.x, 60);
+      assert.equal(snake.head.y, 60);
       snake.direction = 'down';
       snake.moveHead();
-      assert.equal(snake.head.x, 50);
-      assert.equal(snake.head.y, 60);
+      assert.equal(snake.head.x, 60);
+      assert.equal(snake.head.y, 80);
     })
   })
 })
 
 describe("addSegment()", function(){
+  let canvas = stub();
+  canvas.width = 100;
+  canvas.height = 100;
+  let game = new Game(canvas);
 
   context("add segments", function(){
 
     it('add segment to the right while moving left', function(){
-      let snake = new Snake()
+      let snake = new Snake(game)
       assert.equal(snake.head, snake.tail);
-      assert.equal(snake.head.x, 50);
+      assert.equal(snake.head.x, 60);
       snake.direction = 'left';
       snake.addSegment();
       assert.notEqual(snake.head, snake.tail);
-      assert.equal(snake.head.x, 50);
-      assert.equal(snake.tail.x, 60);
+      assert.equal(snake.head.x, 60);
+      assert.equal(snake.tail.x, 80);
     })
 
     it('add segment to the left while moving right', function(){
-      let snake = new Snake()
+      let snake = new Snake(game)
       assert.equal(snake.head, snake.tail);
-      assert.equal(snake.head.x, 50);
+      assert.equal(snake.head.x, 60);
       snake.direction = 'right';
       snake.addSegment();
       assert.notEqual(snake.head, snake.tail);
-      assert.equal(snake.head.x, 50);
+      assert.equal(snake.head.x, 60);
       assert.equal(snake.tail.x, 40);
     })
 
     it('add segment to below when moving up', function(){
-      let snake = new Snake()
+      let snake = new Snake(game)
       assert.equal(snake.head, snake.tail);
-      assert.equal(snake.head.y, 50);
+      assert.equal(snake.head.y, 60);
       snake.direction = 'up';
       snake.addSegment();
       assert.notEqual(snake.head, snake.tail);
-      assert.equal(snake.head.y, 50);
-      assert.equal(snake.tail.y, 60);
+      assert.equal(snake.head.y, 60);
+      assert.equal(snake.tail.y, 80);
     })
 
     it('add segment above when moving down', function(){
-      let snake = new Snake()
+      let snake = new Snake(game)
       assert.equal(snake.head, snake.tail);
-      assert.equal(snake.head.y, 50);
+      assert.equal(snake.head.y, 60);
       snake.direction = 'down';
       snake.addSegment();
       assert.notEqual(snake.head, snake.tail);
-      assert.equal(snake.head.y, 50);
+      assert.equal(snake.head.y, 60);
       assert.equal(snake.tail.y, 40);
     })
   })
 })
 
 describe("moveSnake()", function(){
+  let canvas = stub();
+  canvas.width = 100;
+  canvas.height = 100;
+  let game = new Game(canvas);
 
   context("the snake moves", function(){
 
     it('moves in alllll directions', function(){
-      let snake = new Snake();
+      let snake = new Snake(game);
       snake.direction = 'right';
       snake.addSegment();
 
-      assert.equal(snake.head.x, 50);
-      assert.equal(snake.head.y, 50);
+      assert.equal(snake.head.x, 60);
+      assert.equal(snake.head.y, 60);
       assert.equal(snake.tail.x, 40);
-      assert.equal(snake.tail.y, 50);
+      assert.equal(snake.tail.y, 60);
 
       snake.moveSnake();
 
-      assert.equal(snake.head.x, 60);
-      assert.equal(snake.head.y, 50);
-      assert.equal(snake.tail.x, 50);
-      assert.equal(snake.tail.y, 50);
+      assert.equal(snake.head.x, 80);
+      assert.equal(snake.head.y, 60);
+      assert.equal(snake.tail.x, 60);
+      assert.equal(snake.tail.y, 60);
 
       snake.direction = 'up';
       snake.moveSnake();
 
-      assert.equal(snake.head.x, 60);
+      assert.equal(snake.head.x, 80);
       assert.equal(snake.head.y, 40);
-      assert.equal(snake.tail.x, 60);
-      assert.equal(snake.tail.y, 50);
+      assert.equal(snake.tail.x, 80);
+      assert.equal(snake.tail.y, 60);
 
       snake.direction = 'left';
       snake.moveSnake();
 
-      assert.equal(snake.head.x, 50);
+      assert.equal(snake.head.x, 60);
       assert.equal(snake.head.y, 40);
-      assert.equal(snake.tail.x, 60);
+      assert.equal(snake.tail.x, 80);
       assert.equal(snake.tail.y, 40);
     })
   })
@@ -189,20 +207,20 @@ describe("moveSnake()", function(){
 
       it("returns correct list for single segment snake", function() {
         let snake = new Snake();
-        assert.equal(snake.head.x, 50);
-        assert.equal(snake.head.y, 50);
-        assert.deepEqual(snake.occupiedCoordinates(), [{x: 50, y: 50}]);
+        assert.equal(snake.head.x, 60);
+        assert.equal(snake.head.y, 60);
+        assert.deepEqual(snake.occupiedCoordinates(), [{x: 60, y: 60}]);
       })
 
       it("returns correct list for multi segment snake", function() {
         let snake = new Snake();
         snake.direction = "right";
         snake.addSegment();
-        assert.equal(snake.head.x, 50);
-        assert.equal(snake.head.y, 50);
+        assert.equal(snake.head.x, 60);
+        assert.equal(snake.head.y, 60);
         assert.equal(snake.tail.x, 40);
-        assert.equal(snake.tail.y, 50);
-        assert.deepEqual(snake.occupiedCoordinates(), [{x: 40, y: 50}, {x: 50, y: 50}]);
+        assert.equal(snake.tail.y, 60);
+        assert.deepEqual(snake.occupiedCoordinates(), [{x: 40, y: 60}, {x: 60, y: 60}]);
       })
     })
   })

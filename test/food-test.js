@@ -14,12 +14,12 @@ describe("Food", function(){
 
     it('should have a height', function(){
       let food = new Food(50, 50);
-      assert.equal(food.height, 10);
+      assert.equal(food.height, 20);
     })
 
     it('should have a width', function(){
       let food = new Food(50, 50);
-      assert.equal(food.width, 10);
+      assert.equal(food.width, 20);
     })
 
   })
