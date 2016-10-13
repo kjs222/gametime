@@ -58,11 +58,17 @@ describe("drawSnake()", function(){
 
 describe("drawFood()", function(){
 
-    it("should call fillRect on the canvas", function(){
-      let context = stub().of("fillRect");
-      let render = new Render("canvas", context);
-      let food = { 0: new Food(10, 10), 1: new Food(20, 30) };
-      render.drawFood(food);
-      assert.equal(render.context.fillRect.calls.length, 2);
-    })
+  let context = stub().of("fillRect").of('strokeRect').of('fillText');
+  it("should call fillRect on the canvas", function(){
+    let render = new Render("canvas", context);
+    let food = { 0: new Food(10, 10), 1: new Food(20, 30) };
+    render.drawFood(food);
+    assert.equal(render.context.fillRect.calls.length, 2);
+    assert.equal(render.context.fillRect.calls[0][0], 10);
+    assert.equal(render.context.fillRect.calls[0][1], 10);
+    assert.equal(render.context.fillRect.calls[1][0], 20);
+    assert.equal(render.context.fillRect.calls[1][1], 30);
+    assert.equal(render.context.strokeRect.calls.length, 2);
+    assert.equal(render.context.fillText.calls.length, 2);
+  })
 })
