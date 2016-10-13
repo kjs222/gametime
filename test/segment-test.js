@@ -19,12 +19,12 @@ describe("Segment", function(){
 
     it('should have a height', function(){
       let seg = new Segment(10, 10);
-      assert.equal(seg.height, 10);
+      assert.equal(seg.height, 20);
     })
 
     it('should have a width', function(){
       let seg = new Segment(10, 10);
-      assert.equal(seg.width, 10);
+      assert.equal(seg.width, 20);
     })
 
     it('should have a prev as null', function(){
