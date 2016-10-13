@@ -92,6 +92,70 @@ describe("selectFoodCoords()", function(){
 
 });
 
+describe("snakeAteFood()", function(){
+
+  it('should return true if snake head and food in same location', function(){
+    let canvas = stub();
+    canvas.width = 100;
+    canvas.height = 100;
+    let context = stub();
+    let game = new Game(canvas, context);
+    game.food = new Food(50, 50)
+    assert(game.snakeAteFood())
+  });
+
+  it('should return false if snake head and food are NOT in same location', function(){
+    let canvas = stub();
+    canvas.width = 100;
+    canvas.height = 100;
+    let context = stub();
+    let game = new Game(canvas, context);
+    game.food = new Food(60, 50)
+    assert(!game.snakeAteFood())
+  });
+
+});
+
+describe("updateSnake()", function(){
+
+  it('should NOT grow snake if it did NOT eat food', function(){
+    let canvas = stub();
+    canvas.width = 100;
+    canvas.height = 100;
+    let context = stub();
+    let game = new Game(canvas, context);
+    game.food = new Food(60, 50)
+
+    game.updateSnake();
+    assert.equal(game.snake.head, game.snake.tail);
+  });
+
+  it('should grow snake if it DID eat food', function(){
+    let canvas = stub();
+    canvas.width = 100;
+    canvas.height = 100;
+    let context = stub();
+    let game = new Game(canvas, context);
+    game.food = new Food(50, 50)
+
+    game.updateSnake();
+    assert.notEqual(game.snake.head, game.snake.tail);
+    assert.equal(game.snake.tail.prev, game.snake.head);
+  });
+
+  it('should move snake if snake has direction', function(){
+    let canvas = stub();
+    canvas.width = 100;
+    canvas.height = 100;
+    let context = stub();
+    let game = new Game(canvas, context);
+    game.snake.direction = "right"
+    game.food = new Food(10,10)
+    game.updateSnake();
+    assert.equal(game.snake.head.x, 60);
+  });
+});
+
 describe("replenishFood()", function(){
 
   it('should make a food object with x, y coords', function(){
@@ -154,5 +218,4 @@ describe("replenishFood()", function(){
     assert(game.food)
 
   });
-
 });
