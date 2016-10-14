@@ -25,3 +25,13 @@ describe("Num", function(){
     })
   })
 })
+
+describe("translateToBinary", function(){
+
+  it("translate a decimal number to binary", function(){
+    let num = new Num(2);
+    num.decimal = 2;
+    assert.equal(num.decimal, 2);
+    assert.equal(num.translateToBinary(), 10);
+  })
+})
