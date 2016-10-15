@@ -5,6 +5,7 @@ const stub = require('./support/stub')
 const Snake = require('../lib/snake');
 const Segment = require('../lib/segment');
 const Game = require('../lib/game');
+const Food = require('../lib/food');
 
 describe("Snake", function(){
 
@@ -200,28 +201,50 @@ describe("moveSnake()", function(){
       assert.equal(snake.tail.y, 40);
     })
   })
+})
 
-  describe("occupiedCoordinates()", function() {
+describe("occupiedCoordinates()", function() {
 
-    context("returns list of snake's occupied coords", function(){
+  context("returns list of snake's occupied coords", function(){
 
-      it("returns correct list for single segment snake", function() {
-        let snake = new Snake();
-        assert.equal(snake.head.x, 60);
-        assert.equal(snake.head.y, 60);
-        assert.deepEqual(snake.occupiedCoordinates(), [{x: 60, y: 60}]);
-      })
+    it("returns correct list for single segment snake", function() {
+      let snake = new Snake();
+      assert.equal(snake.head.x, 60);
+      assert.equal(snake.head.y, 60);
+      assert.deepEqual(snake.occupiedCoordinates(), [{x: 60, y: 60}]);
+    })
 
-      it("returns correct list for multi segment snake", function() {
-        let snake = new Snake();
-        snake.direction = "right";
-        snake.addSegment();
-        assert.equal(snake.head.x, 60);
-        assert.equal(snake.head.y, 60);
-        assert.equal(snake.tail.x, 40);
-        assert.equal(snake.tail.y, 60);
-        assert.deepEqual(snake.occupiedCoordinates(), [{x: 40, y: 60}, {x: 60, y: 60}]);
-      })
+    it("returns correct list for multi segment snake", function() {
+      let snake = new Snake();
+      snake.direction = "right";
+      snake.addSegment();
+      assert.equal(snake.head.x, 60);
+      assert.equal(snake.head.y, 60);
+      assert.equal(snake.tail.x, 40);
+      assert.equal(snake.tail.y, 60);
+      assert.deepEqual(snake.occupiedCoordinates(), [{x: 40, y: 60}, {x: 60, y: 60}]);
     })
   })
+})
+
+describe("ateFood()", function() {
+
+  it("returns 1 if snake ate a 1", function() {
+    let snake = new Snake();
+    let allFood = {0: new Food(10, 10), 1: new Food(60, 60)}
+    assert.equal(snake.ateFood(allFood), 1);
+  })
+
+  it("returns 0 if snake ate a 0", function() {
+    let snake = new Snake();
+    let allFood = {0: new Food(60, 60), 1: new Food(10, 10)}
+    assert.equal(snake.ateFood(allFood), 0);
+  })
+
+  it("returns false if snake ate no food", function() {
+    let snake = new Snake();
+    let allFood = {0: new Food(20, 20), 1: new Food(10, 10)}
+    assert.equal(snake.ateFood(allFood), false);
+  })
+
 })

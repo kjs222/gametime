@@ -56,13 +56,13 @@ describe("nextBit()", function(){
 
 })
 
-describe("numSolved()", function(){
+describe("isSolved()", function(){
 
     it('returns false if num is not fully solved', function(){
       let num = new Num(10);
       num.bitsToEat = '10';
       num.updateBitsToEat();
-      assert.isNotTrue(num.numSolved());
+      assert.isNotTrue(num.isSolved());
     })
 
     it('returns true if num is fully solved', function(){
@@ -70,7 +70,7 @@ describe("numSolved()", function(){
       num.bitsToEat = '10';
       num.updateBitsToEat();
       num.updateBitsToEat();
-      assert.isTrue(num.numSolved())
+      assert.isTrue(num.isSolved())
     })
 
 })
