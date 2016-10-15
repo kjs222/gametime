@@ -276,4 +276,33 @@ describe("ateFood()", function() {
     assert.equal(snake.ateFood(allFood), false);
   })
 
+  describe("isDead()", function() {
+    context("returns whether the snake is dead or not", function() {
+
+      it("returns true when the snake has no more segments", function() {
+        let snake = new Snake();
+        snake.head = null
+        assert.equal(snake.isDead(), true);
+      })
+
+      it("returns true when the snake hits wall", function() {
+        let game = stub();
+        game.canvas = stub();
+        game.canvas.width = 100;
+        game.canvas.height = 100;
+        let snake = new Snake(game);
+        snake.head.x = 0;
+        assert.equal(snake.isDead(), true);
+      })
+
+      it("returns false when snake has segments and is not hitting a wall", function() {
+        let game = stub();
+        game.canvas = stub();
+        game.canvas.width = 1000;
+        game.canvas.height = 1000;
+        let snake = new Snake(game);
+        assert.notEqual(snake.isDead(), true);
+      })
+    })
+  })
 })
