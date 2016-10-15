@@ -58,19 +58,29 @@ describe("nextBit()", function(){
 
 describe("isSolved()", function(){
 
-    it('returns false if num is not fully solved', function(){
-      let num = new Num(10);
-      num.bitsToEat = '10';
-      num.updateBitsToEat();
-      assert.isNotTrue(num.isSolved());
-    })
+  it('returns false if num is not fully solved', function(){
+    let num = new Num(10);
+    num.bitsToEat = '10';
+    num.updateBitsToEat();
+    assert.isNotTrue(num.isSolved());
+  })
 
-    it('returns true if num is fully solved', function(){
-      let num = new Num(10);
-      num.bitsToEat = '10';
-      num.updateBitsToEat();
-      num.updateBitsToEat();
-      assert.isTrue(num.isSolved())
-    })
+  it('returns true if num is fully solved', function(){
+    let num = new Num(10);
+    num.bitsToEat = '10';
+    num.updateBitsToEat();
+    num.updateBitsToEat();
+    assert.isTrue(num.isSolved())
+  })
+})
+
+describe("translateToBinary", function(){
+
+  it("translate a decimal number to binary", function(){
+    let num = new Num(2);
+    num.decimal = 2;
+    assert.equal(num.decimal, 2);
+    assert.equal(num.translateToBinary(), 10);
+  })
 
 })
