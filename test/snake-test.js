@@ -14,42 +14,42 @@ describe("Snake", function(){
     it('should be instantiated', function(){
       let snake = new Snake();
       assert.isObject(snake);
-    })
+    });
 
     it('should have game be undefined by default', function(){
       let snake = new Snake();
       assert.isUndefined(snake.game);
-    })
+    });
 
     it('should have a default head', function(){
       let snake = new Snake();
       assert.equal(snake.head.class, new Segment(50, 50).class);
-    })
+    });
 
     it('should have a default tail of its head', function(){
       let snake = new Snake();
       assert.equal(snake.tail, snake.head);
-    })
+    });
 
     it('should have a default direction of null', function(){
       let snake = new Snake();
       assert.isNull(snake.direction);
-    })
-  })
-})
+    });
+  });
+});
 
 describe("setDirection()", function(){
 
   context("has default behavior", function(){
 
     it('it sets a direction', function(){
-      let snake = new Snake()
+      let snake = new Snake();
       assert.isNull(snake.direction);
       snake.setDirection('left');
       assert.equal(snake.direction, 'left');
-    })
-  })
-})
+    });
+  });
+});
 
 describe("moveHead()", function(){
   let canvas = stub();
@@ -68,7 +68,7 @@ describe("moveHead()", function(){
       snake.moveHead();
       assert.equal(snake.head.x, 40);
       assert.equal(snake.head.y, 60);
-    })
+    });
 
     it('it moves right', function(){
       let snake = new Snake(game);
@@ -79,7 +79,7 @@ describe("moveHead()", function(){
       snake.moveHead();
       assert.equal(snake.head.x, 80);
       assert.equal(snake.head.y, 60);
-    })
+    });
 
     it('it moves up', function(){
       let snake = new Snake(game);
@@ -90,7 +90,7 @@ describe("moveHead()", function(){
       snake.moveHead();
       assert.equal(snake.head.x, 60);
       assert.equal(snake.head.y, 40);
-    })
+    });
 
     it('it moves down', function(){
       let snake = new Snake(game);
@@ -101,9 +101,9 @@ describe("moveHead()", function(){
       snake.moveHead();
       assert.equal(snake.head.x, 60);
       assert.equal(snake.head.y, 80);
-    })
-  })
-})
+    });
+  });
+});
 
 describe("addSegment()", function(){
   let canvas = stub();
@@ -114,7 +114,7 @@ describe("addSegment()", function(){
   context("add segments", function(){
 
     it('add segment to the right while moving left', function(){
-      let snake = new Snake(game)
+      let snake = new Snake(game);
       assert.equal(snake.head, snake.tail);
       assert.equal(snake.head.x, 60);
       snake.direction = 'left';
@@ -122,10 +122,10 @@ describe("addSegment()", function(){
       assert.notEqual(snake.head, snake.tail);
       assert.equal(snake.head.x, 60);
       assert.equal(snake.tail.x, 80);
-    })
+    });
 
     it('add segment to the left while moving right', function(){
-      let snake = new Snake(game)
+      let snake = new Snake(game);
       assert.equal(snake.head, snake.tail);
       assert.equal(snake.head.x, 60);
       snake.direction = 'right';
@@ -133,10 +133,10 @@ describe("addSegment()", function(){
       assert.notEqual(snake.head, snake.tail);
       assert.equal(snake.head.x, 60);
       assert.equal(snake.tail.x, 40);
-    })
+    });
 
     it('add segment to below when moving up', function(){
-      let snake = new Snake(game)
+      let snake = new Snake(game);
       assert.equal(snake.head, snake.tail);
       assert.equal(snake.head.y, 60);
       snake.direction = 'up';
@@ -144,10 +144,10 @@ describe("addSegment()", function(){
       assert.notEqual(snake.head, snake.tail);
       assert.equal(snake.head.y, 60);
       assert.equal(snake.tail.y, 80);
-    })
+    });
 
     it('add segment above when moving down', function(){
-      let snake = new Snake(game)
+      let snake = new Snake(game);
       assert.equal(snake.head, snake.tail);
       assert.equal(snake.head.y, 60);
       snake.direction = 'down';
@@ -155,9 +155,38 @@ describe("addSegment()", function(){
       assert.notEqual(snake.head, snake.tail);
       assert.equal(snake.head.y, 60);
       assert.equal(snake.tail.y, 40);
-    })
-  })
-})
+    });
+  });
+});
+
+describe("loseTwoSegment()", function(){
+  let canvas = stub();
+  canvas.width = 100;
+  canvas.height = 100;
+  let game = new Game(canvas);
+
+  it("loses two segments", function(){
+    game.snake.startLength();
+    var tail = game.snake.tail;
+    game.snake.loseTwoSegment();
+    assert.notDeepEqual(tail, game.snake.tail);
+  });
+});
+
+describe("startLength()", function(){
+  let canvas = stub();
+  canvas.width = 100;
+  canvas.height = 100;
+  let game = new Game(canvas);
+
+  it("starts with six segments", function(){
+    game.snake.startLength();
+    var tailX = game.snake.tail.x
+    var tailY = game.snake.tail.y
+    assert.equal(game.snake.head.x, tailX + (5 * 20))
+    assert.equal(game.snake.head.y, tailY)
+  });
+});
 
 describe("moveSnake()", function(){
   let canvas = stub();
