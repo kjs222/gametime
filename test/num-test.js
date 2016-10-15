@@ -1,6 +1,5 @@
 const chai = require('chai');
 const assert = chai.assert;
-// const stub = require('./support/stub')
 const Num = require("../lib/num")
 
 
@@ -10,6 +9,11 @@ describe("Num", function(){
 
     it("instantiates", function(){
       assert.isObject(new Num(10));
+    })
+
+    it('has a maxNumber as passed attribuet', function(){
+      let num = new Num(10);
+      assert.equal(num.maxNumber, 10)
     })
 
     it('has a decimal attribute', function(){
@@ -23,6 +27,50 @@ describe("Num", function(){
       let decimal = num.decimal
       assert.equal(num.binary, (decimal >>> 0).toString(2))
     })
+
+    it('has a bitsToEat attribute set to current binary on instantiation', function(){
+      let num = new Num(10);
+      assert.equal(num.binary, num.bitsToEat)
+    })
+  })
+})
+
+describe("updateBitsToEat()", function(){
+
+    it('removes first bit from list of bits', function(){
+      let num = new Num(10);
+      num.bitsToEat = '1001'
+      num.updateBitsToEat();
+      assert.equal(num.bitsToEat, "001")
+    })
+})
+
+
+describe("nextBit()", function(){
+
+    it('returns first bit from list of bits', function(){
+      let num = new Num(10);
+      num.bitsToEat = '1001'
+      assert.equal(num.nextBit(), "1")
+    })
+
+})
+
+describe("isSolved()", function(){
+
+  it('returns false if num is not fully solved', function(){
+    let num = new Num(10);
+    num.bitsToEat = '10';
+    num.updateBitsToEat();
+    assert.isNotTrue(num.isSolved());
+  })
+
+  it('returns true if num is fully solved', function(){
+    let num = new Num(10);
+    num.bitsToEat = '10';
+    num.updateBitsToEat();
+    num.updateBitsToEat();
+    assert.isTrue(num.isSolved())
   })
 })
 
@@ -34,4 +82,5 @@ describe("translateToBinary", function(){
     assert.equal(num.decimal, 2);
     assert.equal(num.translateToBinary(), 10);
   })
+
 })

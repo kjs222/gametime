@@ -97,17 +97,49 @@ describe("selectFoodCoords()", function(){
 
 });
 
+describe("snakeAteCorrectFood()", function(){
+  it("returns true when snake ate a correct 1", function(){
+    let canvas = stub();
+    let context = stub();
+    canvas.width = 100;
+    canvas.height = 100;
+    let game = new Game(canvas, context);
+    game.currentNumber.bitsToEat = "10"
+    assert(game.snakeAteCorrectFood(1))
+  })
+
+  it("returns true when snake ate a correct 0", function(){
+    let canvas = stub();
+    let context = stub();
+    canvas.width = 100;
+    canvas.height = 100;
+    let game = new Game(canvas, context);
+    game.currentNumber.bitsToEat = "0"
+    assert(game.snakeAteCorrectFood(0))
+  })
+
+  it("returns false when snake ate nothing", function(){
+    let canvas = stub();
+    let context = stub();
+    canvas.width = 100;
+    canvas.height = 100;
+    let game = new Game(canvas, context);
+    game.currentNumber.bitsToEat = "0"
+    assert.isFalse(game.snakeAteCorrectFood(false))
+  })
+})
+
 describe("snakeAteFood()", function(){
 
   it('should set food[0] to null if snake eats food[0]', function(){
     let canvas = stub();
+    let context = stub();
     canvas.width = 100;
     canvas.height = 100;
-    let context = stub();
     let game = new Game(canvas, context);
     game.food = {0: new Food(60, 60), 1: new Food(10, 10) }
     game.snakeAteFood();
-    assert.deepEqual(game.food[0], null)
+    assert.isNull(game.food[0])
   });
 
   it('should set food[1] to null if snake eats food[1]', function(){
@@ -121,28 +153,43 @@ describe("snakeAteFood()", function(){
     assert.deepEqual(game.food[1], null)
   });
 
-  it('should add segment if snake eats food[0]', function(){
+  it('should add segment if snake eats correct food[0]', function(){
     let canvas = stub();
     canvas.width = 100;
     canvas.height = 100;
     let context = stub();
     let game = new Game(canvas, context);
+    game.currentNumber.bitsToEat = "0";
     game.food = {0: new Food(60, 60), 1: new Food(10, 10) }
     assert.equal(game.snake.head, game.snake.tail)
     game.snakeAteFood();
     assert.notEqual(game.snake.head, game.snake.tail)
   });
 
-  it('should add segment if snake eats food[1]', function(){
+  it('should add segment if snake eats correct food[1]', function(){
     let canvas = stub();
     canvas.width = 100;
     canvas.height = 100;
     let context = stub();
     let game = new Game(canvas, context);
+    game.currentNumber.bitsToEat = "1";
     game.food = { 0: new Food(10, 10), 1: new Food(60, 60) }
     assert.equal(game.snake.head, game.snake.tail)
     game.snakeAteFood();
     assert.notEqual(game.snake.head, game.snake.tail)
+  });
+
+  it('should NOT add segment if snake eats incorrect food', function(){
+    let canvas = stub();
+    canvas.width = 100;
+    canvas.height = 100;
+    let context = stub();
+    let game = new Game(canvas, context);
+    game.currentNumber.bitsToEat = "0";
+    game.food = { 0: new Food(10, 10), 1: new Food(60, 60) }
+    assert.equal(game.snake.head, game.snake.tail)
+    game.snakeAteFood();
+    assert.deepEqual(game.snake.head, game.snake.tail)
   });
 
   it('should NOT add segment if snake does NOT eat food', function(){
@@ -158,7 +205,7 @@ describe("snakeAteFood()", function(){
   });
 
 
-  it('should return false if snake head and food are NOT in same location', function(){
+  it('should not empty food if snake did not eat food', function(){
     let canvas = stub();
     canvas.width = 100;
     canvas.height = 100;
@@ -185,14 +232,14 @@ describe("updateSnake()", function(){
     assert.equal(game.snake.head, game.snake.tail);
   });
 
-  it('should grow snake if it DID eat food', function(){
+  it('should grow snake if it DID eat correct food', function(){
     let canvas = stub();
     canvas.width = 100;
     canvas.height = 100;
     let context = stub();
     let game = new Game(canvas, context);
+    game.currentNumber.bitsToEat = "0";
     game.food = {0: new Food(60, 60), 1: new Food(10, 10) }
-
     game.updateSnake();
     assert.notEqual(game.snake.head, game.snake.tail);
     assert.equal(game.snake.tail.prev, game.snake.head);
@@ -208,6 +255,33 @@ describe("updateSnake()", function(){
     game.food = {0: new Food(60, 60), 1: new Food(10, 10) }
     game.updateSnake();
     assert.equal(game.snake.head.x, 80);
+  });
+});
+
+describe("updateNum()", function(){
+
+  it('should reset CurrentNumber if Current Number is solved', function(){
+    let canvas = stub();
+    canvas.width = 100;
+    canvas.height = 100;
+    let context = stub();
+    let game = new Game(canvas, context);
+    let oldNum = game.currentNumber;
+    game.currentNumber.bitsToEat = "";
+    game.updateNum();
+    assert.notDeepEqual(oldNum, game.currentNumber)
+  });
+
+  it('should NOT reset CurrentNumber if Current Number is not solved', function(){
+    let canvas = stub();
+    canvas.width = 100;
+    canvas.height = 100;
+    let context = stub();
+    let game = new Game(canvas, context);
+    let oldNum = game.currentNumber;
+    game.currentNumber.bitsToEat = "1";
+    game.updateNum();
+    assert.deepEqual(oldNum, game.currentNumber)
   });
 });
 
