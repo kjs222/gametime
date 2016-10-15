@@ -11,15 +11,15 @@ describe("Num", function(){
       assert.isObject(new Num(10));
     })
 
-    it('has a maxNumber as passed attribuet', function(){
+    it('has a minNumber as passed attribuet', function(){
       let num = new Num(10);
-      assert.equal(num.maxNumber, 10)
+      assert.equal(num.minNumber, 10)
     })
 
     it('has a decimal attribute', function(){
       let num = new Num(10);
-      assert.isAbove(num.decimal, 0)
-      assert.isAtMost(num.decimal, 10)
+      assert.isAbove(num.decimal, 10)
+      assert.isAtMost(num.decimal, 21)
     })
 
     it('has a binary attribute', function(){
