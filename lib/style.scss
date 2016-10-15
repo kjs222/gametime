@@ -10,3 +10,76 @@ canvas {
   font-size: 25px;
   font-family: monaco;
 }
+
+.menu {
+  background-color: #333333;
+  color: white;
+  font-family: monospace;
+  font-size: 16px;
+  padding: 10px;
+  width: 350px;
+}
+
+.menu p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.menu .terminal {
+  color: #55b848;
+}
+
+.cursor {
+  font-weight: 100;
+  color: #55b848;
+  -webkit-animation: 1s blink step-end infinite;
+  -moz-animation: 1s blink step-end infinite;
+  -ms-animation: 1s blink step-end infinite;
+  -o-animation: 1s blink step-end infinite;
+  animation: 1s blink step-end infinite;
+}
+
+@keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: #55b848;
+  }
+}
+
+@-moz-keyframes blink {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: #55b848;
+  }
+}
+
+@-webkit-keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: #55b848;
+  }
+}
+
+@-ms-keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: #55b848;
+  }
+}
+
+@-o-keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: #55b848;
+  }
+}
