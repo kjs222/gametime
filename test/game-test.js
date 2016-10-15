@@ -30,20 +30,25 @@ describe("Game", function(){
     it('should have user input', function(){
       let game = new Game();
       assert.equal(game.userInput.class, UserInput.class);
-    })
+    });
 
     it('should have food', function(){
       let game = new Game();
       assert.deepEqual(game.food, { 0: null , 1: null});
-    })
-  })
+    });
+
+    it('should have a score', function() {
+      let game = new Game();
+      assert.equal(game.score, 0);
+    });
+  });
 
   context("with passed in values", function(){
     it('should have a canvas', function(){
       let canvas = stub();
       let game = new Game(canvas);
       assert.isObject(game.canvas);
-    })
+    });
 
     it('should have a context', function(){
       let canvas = stub();
@@ -251,25 +256,26 @@ describe("updateSnake()", function(){
     canvas.height = 100;
     let context = stub();
     let game = new Game(canvas, context);
-    game.snake.direction = "right"
-    game.food = {0: new Food(60, 60), 1: new Food(10, 10) }
+    game.snake.direction = "right";
+    game.food = {0: new Food(60, 60), 1: new Food(10, 10) };
     game.updateSnake();
     assert.equal(game.snake.head.x, 80);
   });
 });
 
-describe("updateNum()", function(){
+describe("handleSolvedNumber()", function(){
 
   it('should reset CurrentNumber if Current Number is solved', function(){
     let canvas = stub();
-    canvas.width = 100;
-    canvas.height = 100;
+    canvas.width = 1000;
+    canvas.height = 1000;
     let context = stub();
     let game = new Game(canvas, context);
     let oldNum = game.currentNumber;
     game.currentNumber.bitsToEat = "";
-    game.updateNum();
-    assert.notDeepEqual(oldNum, game.currentNumber)
+    game.handleSolvedNumber();
+    assert.equal(game.score, 1);
+    assert.notDeepEqual(oldNum, game.currentNumber);
   });
 
   it('should NOT reset CurrentNumber if Current Number is not solved', function(){
@@ -280,8 +286,8 @@ describe("updateNum()", function(){
     let game = new Game(canvas, context);
     let oldNum = game.currentNumber;
     game.currentNumber.bitsToEat = "1";
-    game.updateNum();
-    assert.deepEqual(oldNum, game.currentNumber)
+    game.handleSolvedNumber();
+    assert.deepEqual(oldNum, game.currentNumber);
   });
 });
 
@@ -353,5 +359,14 @@ describe("replenishFood()", function(){
     game.replenishFood();
 
     assert(!(game.food[0].x === 80 && game.food[0].y === 60))
+  });
+
+  describe("updateScore()", function(){
+
+    it('should increment the score', function(){
+      let game = new Game();
+      game.updateScore();
+      assert.equal(game.score, 1)
+    });
   });
 });
