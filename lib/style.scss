@@ -1,8 +1,14 @@
 canvas {
   border: 1px solid;
   margin-top: 25px;
-  margin-left: 50px;
   background-color: black;
+  margin-left: 30px;
+  float: left;
+}
+
+#game {
+  position: relative;
+  top: 0px;
 }
 
 #currentNumber {
@@ -10,4 +16,82 @@ canvas {
   margin-left: 525px;
   font-size: 25px;
   font-family: Courier;
+}
+
+.all-menus {
+  margin-top: 25px;
+  float: right;
+}
+
+.menu {
+  background-color: #333333;
+  color: white;
+  font-family: monospace;
+  font-size: 14px;
+  padding: 10px;
+  width: 380px;
+}
+
+.menu p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.menu .terminal {
+  color: #55b848;
+}
+
+.cursor {
+  font-weight: 100;
+  color: #55b848;
+  -webkit-animation: 1s blink step-end infinite;
+  -moz-animation: 1s blink step-end infinite;
+  -ms-animation: 1s blink step-end infinite;
+  -o-animation: 1s blink step-end infinite;
+  animation: 1s blink step-end infinite;
+}
+
+@keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: #55b848;
+  }
+}
+
+@-moz-keyframes blink {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: #55b848;
+  }
+}
+
+@-webkit-keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: #55b848;
+  }
+}
+
+@-ms-keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: #55b848;
+  }
+}
+
+@-o-keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: #55b848;
+  }
 }

@@ -11,13 +11,13 @@ describe("UserInput", function(){
     it("instantiates", function(){
       let ui = new UserInput();
       assert.isObject(ui);
-    })
+    });
 
     it("has a game attribute", function(){
       let game = new Game("canvas", "context");
       let ui = new UserInput(game);
-      assert.equal(ui.game, game)
-    })
+      assert.equal(ui.game, game);
+    });
 
     it("has a keyCode Mapper default attribute", function(){
       let game = new Game("canvas", "context");
@@ -27,8 +27,6 @@ describe("UserInput", function(){
       assert.equal(ui.keyCodeMapper[38], "up");
       assert.equal(ui.keyCodeMapper[39], "right");
       assert.equal(ui.keyCodeMapper[40], "down");
-
-    })
-  })
-
+    });
+  });
 });
