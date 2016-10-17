@@ -2,11 +2,18 @@ canvas {
   border: 1px solid;
   margin-top: 25px;
   margin-left: 50px;
+  background-color: black;
 }
 
 #currentNumber {
   margin-top: 25px;
   margin-left: 525px;
   font-size: 25px;
-  font-family: monaco;
+  font-family: Courier;
+}
+
+.right {
+    float: right;
+    border: 3px solid #00FF00;
+    // padding: 10px;
 }
