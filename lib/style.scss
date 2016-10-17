@@ -8,7 +8,9 @@ canvas {
 
 #game {
   position: relative;
-  top: 0px;
+  width: 980px;
+  height: 500px;
+
 }
 
 #currentNumber {
@@ -99,5 +101,14 @@ canvas {
 #tabs {
   float:left;
   width: 300px;
+}
 
+#restartButton
+{
+  bottom: 600px;
+  left: 10px;
+  position: absolute;
+  height: auto;
+  font-size: 72px;
+  margin-left: 500px
 }
