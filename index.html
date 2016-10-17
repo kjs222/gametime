@@ -20,14 +20,14 @@
   <div id="currentNumber"></div>
   <div><p id="currentConversion">Binary: </p></div>
   <div><p id="currentScore"></p></div>
+  <button type="button" id="restartButton">Start GAME!</button>
   <div class="game">
     <canvas id="canvas" height="500" width="980"></canvas>
-    <button type="button" id="restartButton">Start GAME!</button>
   </div>
 
   <div class="all-menus">
 
-    <div id="tabs">
+    <!-- <div id="tabs">
       <ul>
         <li><a href="#tabs-1">Instructions</a></li>
         <li><a href="#tabs-2">Leaderboard</a></li>
@@ -43,16 +43,29 @@
         <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
         <p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
       </div>
+    </div> -->
+
+    <div class="tab-container">
+      <h5 class="tab active-tab" id="instructions-tab" target="instructions">Instructions</h5>
+      <h5 class="tab" id="status-tab" target="status">Status</h5>
+      <h5 class="tab" id="scoreboard-tab" target="scoreboard">Leaderboard</h5>
     </div>
 
-    <div class="menu scoreboard">
-      <p class="command"><span class="terminal">[snake]: ~$</span> cat leaderboard.txt</p>
-      <p class="prompt"><span class="terminal">[snake]: ~$</span><span class="cursor">|</span></p>
+    <div class="menu instructions">
+      <p>Instructions</p>
     </div>
 
     <div class="menu status">
       <p>STATUS</p>
     </div>
+
+    <div class="menu scoreboard">
+      <p>scoreboard</p>
+      <p class="command"><span class="terminal">[snake]: ~$</span> cat leaderboard.txt</p>
+      <p class="prompt"><span class="terminal">[snake]: ~$</span><span class="cursor">|</span></p>
+    </div>
+
+
 
   </div>
 
