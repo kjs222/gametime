@@ -1,0 +1,146 @@
+canvas {
+  border: 1px solid;
+  margin-top: 25px;
+  margin-left: 20px;
+  float: left;
+  background: #333333;
+}
+
+#game {
+  position: relative;
+}
+
+#currentNumber {
+  margin-top: 25px;
+  margin-left: 525px;
+  font-size: 25px;
+  font-family: Courier;
+}
+
+.all-menus {
+  margin-top: 25px;
+  float: left;
+  margin-left: 50px;
+}
+
+.menu {
+  width: 380px;
+  background-color: #333333;
+  color: white;
+  font-family: monospace;
+  font-size: 14px;
+  padding: 10px;
+  max-height: 450px;
+  min-height: 450px;
+}
+
+.menu p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.menu .terminal {
+  color: #55b848;
+}
+
+.cursor {
+  font-weight: 100;
+  color: #55b848;
+  -webkit-animation: 1s blink step-end infinite;
+  -moz-animation: 1s blink step-end infinite;
+  -ms-animation: 1s blink step-end infinite;
+  -o-animation: 1s blink step-end infinite;
+  animation: 1s blink step-end infinite;
+}
+
+@keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: #55b848;
+  }
+}
+
+@-moz-keyframes blink {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: #55b848;
+  }
+}
+
+@-webkit-keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: #55b848;
+  }
+}
+
+@-ms-keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: #55b848;
+  }
+}
+
+@-o-keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: #55b848;
+  }
+}
+
+.tab-container{
+  // margin-top: -50px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.tab {
+  display: inline-block;
+  background-color: #b8b8b8;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: monospace;
+  margin: 0px;
+  text-align: center;
+  width:33%;
+}
+
+#status-tab {
+  border-left: 2px solid white;
+  border-right: 1px solid white;
+  margin-left: -4px;
+  margin-right: -4px;
+}
+
+.tab:hover {
+  text-decoration: none;
+  color: gray;
+}
+
+#restartButton
+{
+  top: 425px;
+  left: 360px;
+  position: fixed;
+  height: 100px;
+  font-size: 40px;
+  font-family: courier;
+  color: #333333;
+  background-color: #55b848;
+}
+
+.active-tab {
+  background-color: #D4D4D4;
+}
