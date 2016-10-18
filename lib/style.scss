@@ -1,16 +1,15 @@
 canvas {
   border: 1px solid;
   margin-top: 25px;
-  margin-left: 50px;
+  margin-left: 20px;
   float: left;
   background: #333333;
 }
 
 #game {
   position: relative;
-  width: 980px;
+  width: 960px;
   height: 500px;
-
 }
 
 #currentNumber {
@@ -32,6 +31,8 @@ canvas {
   font-family: monospace;
   font-size: 14px;
   padding: 10px;
+  max-height: 450px;
+  min-height: 450px;
 }
 
 .menu p {
@@ -98,17 +99,47 @@ canvas {
   }
 }
 
-#tabs {
-  float:left;
-  width: 300px;
+// #restartButton
+// {
+//   bottom: 600px;
+//   left: 10px;
+//   position: absolute;
+//   height: auto;
+//   font-size: 72px;
+//   margin-left: 500px
+// }
+
+.tab-container{
+  // margin-top: -50px;
+  margin: 0px;
+  padding: 0px;
 }
 
-#restartButton
-{
-  bottom: 600px;
-  left: 10px;
-  position: absolute;
-  height: auto;
-  font-size: 72px;
-  margin-left: 500px
+.tab {
+  display: inline-block;
+  background-color: #b8b8b8;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: monospace;
+  margin: 0px;
+  text-align: center;
+  width:33%;
+}
+
+#status-tab {
+  border-left: 2px solid white;
+  border-right: 1px solid white;
+  margin-left: -4px;
+  margin-right: -4px;
+}
+
+.tab:hover {
+  text-decoration: none;
+  color: gray;
+}
+
+.active-tab {
+  background-color: #D4D4D4;
 }
