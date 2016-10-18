@@ -251,7 +251,7 @@ describe("occupiedCoordinates()", function() {
       assert.equal(snake.head.y, 100);
       assert.equal(snake.tail.x, 100);
       assert.equal(snake.tail.y, 100);
-      assert.deepEqual(snake.occupiedCoordinates(), [{x: 40, y: 60}, {x: 60, y: 60}]);
+      assert.deepEqual(snake.occupiedCoordinates(), [{x: 100, y: 100}, {x: 120, y: 100}]);
     });
   });
 });
@@ -260,13 +260,13 @@ describe("ateFood()", function() {
 
   it("returns 1 if snake ate a 1", function() {
     let snake = new Snake();
-    let allFood = { 0: new Food(20, 20), 1: new Food(60, 60) };
+    let allFood = { 0: new Food(20, 20), 1: new Food(120, 100) };
     assert.equal(snake.ateFood(allFood), 1);
   });
 
   it("returns 0 if snake ate a 0", function() {
     let snake = new Snake();
-    let allFood = {0: new Food(60, 60), 1: new Food(10, 10)};
+    let allFood = {0: new Food(120, 100), 1: new Food(10, 10)};
     assert.equal(snake.ateFood(allFood), 0);
   });
 
@@ -275,34 +275,33 @@ describe("ateFood()", function() {
     let allFood = {0: new Food(20, 20), 1: new Food(10, 10)};
     assert.equal(snake.ateFood(allFood), false);
   });
+});
+describe("isDead()", function() {
+  context("returns whether the snake is dead or not", function() {
 
-  describe("isDead()", function() {
-    context("returns whether the snake is dead or not", function() {
+    it("returns true when the snake has no more segments", function() {
+      let snake = new Snake();
+      snake.head = null;
+      assert.equal(snake.isDead(), true);
+    });
 
-      it("returns true when the snake has no more segments", function() {
-        let snake = new Snake();
-        snake.head = null;
-        assert.equal(snake.isDead(), true);
-      });
+    it("returns true when the snake hits wall", function() {
+      let game = stub();
+      game.canvas = stub();
+      game.canvas.width = 100;
+      game.canvas.height = 100;
+      let snake = new Snake(game);
+      snake.head.x = 0;
+      assert.equal(snake.isDead(), true);
+    });
 
-      it("returns true when the snake hits wall", function() {
-        let game = stub();
-        game.canvas = stub();
-        game.canvas.width = 100;
-        game.canvas.height = 100;
-        let snake = new Snake(game);
-        snake.head.x = 0;
-        assert.equal(snake.isDead(), true);
-      });
-
-      it("returns false when snake has segments and is not hitting a wall", function() {
-        let game = stub();
-        game.canvas = stub();
-        game.canvas.width = 1000;
-        game.canvas.height = 1000;
-        let snake = new Snake(game);
-        assert.notEqual(snake.isDead(), true);
-      });
+    it("returns false when snake has segments and is not hitting a wall", function() {
+      let game = stub();
+      game.canvas = stub();
+      game.canvas.width = 1000;
+      game.canvas.height = 1000;
+      let snake = new Snake(game);
+      assert.notEqual(snake.isDead(), true);
     });
   });
 });
