@@ -8,8 +8,6 @@ canvas {
 
 #game {
   position: relative;
-  width: 960px;
-  height: 500px;
 }
 
 #currentNumber {
@@ -99,16 +97,6 @@ canvas {
   }
 }
 
-// #restartButton
-// {
-//   bottom: 600px;
-//   left: 10px;
-//   position: absolute;
-//   height: auto;
-//   font-size: 72px;
-//   margin-left: 500px
-// }
-
 .tab-container{
   // margin-top: -50px;
   margin: 0px;
@@ -138,6 +126,18 @@ canvas {
 .tab:hover {
   text-decoration: none;
   color: gray;
+}
+
+#restartButton
+{
+  top: 425px;
+  left: 360px;
+  position: fixed;
+  height: 100px;
+  font-size: 40px;
+  font-family: courier;
+  color: #333333;
+  background-color: #55b848;
 }
 
 .active-tab {
