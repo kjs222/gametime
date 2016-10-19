@@ -35,24 +35,26 @@ describe("Render", function(){
 
 describe("drawSegment()", function(){
 
-  it("should call strokeRect on the canvas", function(){
-    let context = stub().of("strokeRect");
+  it("should call fillRect on the canvas", function(){
+    let context = stub().of("strokeRect").of("fillRect");
     let render = new Render("canvas", context);
     let segment = new Segment(10, 10);
     render.drawSegment(segment);
-    assert.equal(render.context.strokeRect.calls.length, 1);
+    assert.equal(render.context.fillRect.calls.length, 1);
   });
 });
 
 describe("drawSnake()", function(){
 
-  it("should call strokeRect on the canvas", function(){
-    let context = stub().of("strokeRect");
+  it("should call strokeRect and FillRect on the canvas", function(){
+    let context = stub().of("strokeRect").of("fillRect");
     let render = new Render("canvas", context);
     let snake = new Snake('game');
     snake.addSegment();
     render.drawSnake(snake.tail);
     assert.equal(render.context.strokeRect.calls.length, 2);
+    assert.equal(render.context.fillRect.calls.length, 1);
+
   });
 });
 
