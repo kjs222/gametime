@@ -148,18 +148,23 @@ canvas {
 }
 
 #snakeLogo {
-  height: auto;
-  width: 298px;
+  height: 75px;
+  width: 398px;
   position: fixed;
   top: 0px;
-  right: 90px
+  right: 40px;
 }
+
+// .logoContainer {
+//   background-color: black;
+//   width: 380px;
+// }
 
 .infoText {
   font-family: courier;
   font-size: 32px;
   display: inline;
-  color: #333333;
+  color: #55b848;
 }
 
 #currentConversion {
@@ -170,7 +175,3 @@ canvas {
   position: fixed;
   left: 750px;
 }
-
-// .add-leader {
-//   display: none;
-// }
