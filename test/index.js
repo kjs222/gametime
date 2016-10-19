@@ -7,3 +7,4 @@ require('./game-test');
 require('./num-test');
 require('./scoreboard-test');
 require('./menu-test');
+require('./block-test');
