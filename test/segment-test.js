@@ -1,12 +1,6 @@
 const chai = require('chai');
 const assert = chai.assert;
-
 const Segment = require('../lib/segment');
-
-// beforeEach(function(){
-//   var seg = new Segment(10, 10);
-//   return seg
-// })
 
 describe("Segment", function(){
 
