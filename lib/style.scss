@@ -1,11 +1,13 @@
 body {
-  background: #66666a;
+  background-image: url("https://s-media-cache-ak0.pinimg.com/originals/5f/50/6b/5f506bc2895a2054eaad7910cef567cb.jpg");
+  background-size: auto;
+  opacity: .85;
 }
 
 canvas {
   border: 1px solid;
   // margin-top: 25px;
-  // margin-left: 20px;
+  margin-left: 35px;
   float: left;
   background: #333333;
 }
@@ -20,20 +22,19 @@ canvas {
 }
 
 .all-menus {
-  margin-top: 25px;
+  margin-top: 45px;
   // float: left;
   // margin-left: 50px;
 }
 
 .menu {
-  width: 380px;
+  width: 400px;
   background-color: #333333;
   color: white;
   font-family: monospace;
   font-size: 14px;
   padding: 10px;
-  // max-height: 450px;
-  min-height: 450px;
+  min-height: 475px;
 }
 
 .menu p {
@@ -100,11 +101,11 @@ canvas {
   }
 }
 
-// .tab-container{
-//   // margin-top: -50px;
-//   margin: 0px;
-//   padding: 0px;
-// }
+.tab-container{
+  // margin-top: -50px;
+  margin: 0px;
+  padding: 0px;
+}
 
 .tab {
   display: inline-block;
@@ -116,7 +117,7 @@ canvas {
   font-family: monospace;
   margin: 0px;
   text-align: center;
-  // width:33%;
+  width:31.6%;
 }
 
 #status-tab {
@@ -149,16 +150,10 @@ canvas {
 
 #snakeLogo {
   height: 75px;
-  width: 398px;
-  // position: fixed;
+  width: 400px;
   top: 0px;
-  right: 40px;
+  margin-left: 11px;
 }
-
-// .logoContainer {
-//   background-color: black;
-//   width: 380px;
-// }
 
 .infoText {
   font-family: courier;

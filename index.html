@@ -22,15 +22,21 @@
 <body>
 
 
-
+  <div class="row">
+    <div class="col-md-8">
+      <div id="currentConversion" class="infoText"></div>
+      <div id="currentScore" class="infoText"></div>
+    </div>
+    <div class="col-md-3">
+      <div class="logoContainer">
+        <img src="http://pixelartmaker.com/art/27afe53d916da83.png" alt="snake" id="snakeLogo" class="all-menus">
+      </div>
+    </div>
+  </div>
 
     <div class="row">
     <div class="col-md-8">
       <div id="currentNumber" class="infoText"></div>
-      <div>
-        <div id="currentConversion" class="infoText"></div>
-        <div id="currentScore" class="infoText"></div>
-      </div>
 
       <div class="game">
         <canvas id="canvas" height="500" width="900"></canvas>
@@ -38,12 +44,7 @@
       </div>
     </div>
 
-  <div class="col-md-3">
-    <div class="col-md-12">
-      <div class="logoContainer">
-        <img src="http://pixelartmaker.com/art/27afe53d916da83.png" alt="snake" id="snakeLogo" class="all-menus">
-      </div>
-    </div>
+  <div class="col-md-4">
 
     <div class="col-md-12">
         <div class="all-menus">
@@ -59,7 +60,7 @@
             <div id="instructions-post-type">
               <p>Click on the start button to begin a new game. A decimal number will appear at the top of your screen.</p><br>
               <p>Your goal is to convert this number to binary by eating food bits in the correct order.</p><br>
-              <p>For example, if the number is 2, your snake should eat a 1 then a 0.</p><br>
+              For example, if the number is 2, your snake should eat a 1 then a 0.
               <p>Navigate the snake to the correct food bits using the arrow keys.</p><br>
               <p>If you eat the correct food bit, your snake will grow. If you eat the incorrect food bit, your snake will lose segments.</p><br>
               <p>Once a number has been converted, a new decimal number will be provided.</p><br>
