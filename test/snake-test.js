@@ -48,6 +48,12 @@ describe("setDirection()", function(){
       snake.setDirection('left');
       assert.equal(snake.direction, 'left');
     });
+
+    it("it doesn't set a direction if it's the opposite direction", function(){
+      let snake = new Snake();
+      snake.setDirection("right", "left");
+      assert.equal(snake.direction, "left");
+    });
   });
 });
 
@@ -302,6 +308,48 @@ describe("isDead()", function() {
       game.canvas.height = 1000;
       let snake = new Snake(game);
       assert.notEqual(snake.isDead(), true);
+    });
+  });
+});
+
+describe("attemptedReverseDirection()", function() {
+
+  context("returns true if opposite direction is input", function() {
+
+    it("returns true if going right and try to turn left", function() {
+      let snake = new Snake();
+      snake.direction = "left";
+      assert.equal(true, snake.attemptedReverseDirection("right"));
+    });
+
+    it("returns true if going left and try to turn right", function() {
+      let snake = new Snake();
+      snake.direction = "right";
+      assert.equal(true, snake.attemptedReverseDirection("left"));
+    });
+
+    it("returns true if going up and try to turn down", function() {
+      let snake = new Snake();
+      snake.direction = "down";
+      assert.equal(true, snake.attemptedReverseDirection("up"));
+    });
+
+    it("returns true if going down and try to turn up", function() {
+      let snake = new Snake();
+      snake.direction = "up";
+      assert.equal(true, snake.attemptedReverseDirection("down"));
+    });
+
+    it("returns false if going down and try to turn left", function() {
+      let snake = new Snake();
+      snake.direction = "left";
+      assert.equal(false, snake.attemptedReverseDirection("down"));
+    });
+
+    it("returns false if going right and try to turn right", function() {
+      let snake = new Snake();
+      snake.direction = "right";
+      assert.equal(false, snake.attemptedReverseDirection("right"));
     });
   });
 });
