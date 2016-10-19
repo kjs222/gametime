@@ -4,8 +4,8 @@ body {
 
 canvas {
   border: 1px solid;
-  margin-top: 25px;
-  margin-left: 20px;
+  // margin-top: 25px;
+  // margin-left: 20px;
   float: left;
   background: #333333;
 }
@@ -21,8 +21,8 @@ canvas {
 
 .all-menus {
   margin-top: 25px;
-  float: left;
-  margin-left: 50px;
+  // float: left;
+  // margin-left: 50px;
 }
 
 .menu {
@@ -32,7 +32,7 @@ canvas {
   font-family: monospace;
   font-size: 14px;
   padding: 10px;
-  max-height: 450px;
+  // max-height: 450px;
   min-height: 450px;
 }
 
@@ -100,11 +100,11 @@ canvas {
   }
 }
 
-.tab-container{
-  // margin-top: -50px;
-  margin: 0px;
-  padding: 0px;
-}
+// .tab-container{
+//   // margin-top: -50px;
+//   margin: 0px;
+//   padding: 0px;
+// }
 
 .tab {
   display: inline-block;
@@ -116,7 +116,7 @@ canvas {
   font-family: monospace;
   margin: 0px;
   text-align: center;
-  width:33%;
+  // width:33%;
 }
 
 #status-tab {
@@ -150,7 +150,7 @@ canvas {
 #snakeLogo {
   height: 75px;
   width: 398px;
-  position: fixed;
+  // position: fixed;
   top: 0px;
   right: 40px;
 }
