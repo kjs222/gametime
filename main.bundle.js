@@ -86,6 +86,12 @@
 
 	setupPregameDisplay();
 
+	window.addEventListener("keydown", function (e) {
+	  if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+	    e.preventDefault();
+	  }
+	}, false);
+
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
@@ -10755,6 +10761,7 @@
 	      this.render.updateCurrentConversion(foodEaten);
 	      this.currentNumber.updateBitsToEat();
 	      this.snake.addSegment();
+	      this.updateScore();
 	    } else if (foodEaten !== false) {
 	      this.food[foodEaten] = null;
 	      this.snake.loseTwoSegment();
@@ -10770,15 +10777,20 @@
 	  handleSolvedNumber() {
 	    if (this.currentNumber.isSolved()) {
 	      this.render.displayEchoedBinary(this.currentNumber);
+	      this.updateScore(this.currentNumber.decimal);
 	      this.currentNumber = new Num(this.currentNumber.decimal + 1);
 	      this.render.displayEchoCommand(this.currentNumber);
 	      this.render.clearConversion();
-	      this.updateScore();
+	      this.snake.tail.solvedNumber = true;
 	    }
 	  }
 
-	  updateScore() {
-	    this.score++;
+	  updateScore(num) {
+	    if (num) {
+	      this.score += num;
+	    } else {
+	      this.score++;
+	    }
 	  }
 
 	  inProgress() {
@@ -10814,17 +10826,14 @@
 	    this.context = context;
 	  }
 
-	  drawSegment(segment) {
+	  drawSegment(segment, color) {
+	    this.context.strokeRect(segment.x, segment.y, segment.width, segment.height);
+	    this.context.lineWidth = 2;
 	    if (segment.prev == null) {
-	      this.context.lineWidth = 2;
-	      this.context.strokeRect(segment.x, segment.y, segment.width, segment.height);
 	      this.context.fillRect(segment.x, segment.y, segment.width, segment.height);
-	      this.context.font = "20pt Courier ";
-	    } else {
-	      this.context.lineWidth = 2;
-	      this.context.strokeRect(segment.x, segment.y, segment.width, segment.height);
-	      this.context.fillStyle = "#55b848";
-	      this.context.font = "20pt Courier ";
+	    } else if (color) {
+	      this.context.fillStyle = color;
+	      this.context.fillRect(segment.x, segment.y, segment.width, segment.height);
 	    }
 	  }
 
@@ -10845,7 +10854,11 @@
 	  }
 
 	  drawSnake(currentSegment) {
-	    this.drawSegment(currentSegment);
+	    if (currentSegment.solvedNumber) {
+	      this.drawSegment(currentSegment, "#55b848");
+	    } else {
+	      this.drawSegment(currentSegment);
+	    }
 	    if (currentSegment.prev) {
 	      this.drawSnake(currentSegment.prev);
 	    } else {
@@ -11042,12 +11055,13 @@
 /***/ function(module, exports) {
 
 	class Segment {
-	  constructor(x, y) {
+	  constructor(x, y, solvedNumber) {
 	    this.height = 20;
 	    this.width = 20;
 	    this.x = x;
 	    this.y = y;
 	    this.prev = null;
+	    this.solvedNumber = solvedNumber || false;
 	  }
 	}
 
