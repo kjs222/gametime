@@ -274,7 +274,7 @@ describe("handleSolvedNumber()", function(){
     let oldNum = game.currentNumber;
     game.currentNumber.bitsToEat = "";
     game.handleSolvedNumber();
-    assert.equal(game.score, 1);
+    assert.isAtLeast(game.score, oldNum.decimal);
     assert.notDeepEqual(oldNum, game.currentNumber);
   });
 
