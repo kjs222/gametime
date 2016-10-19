@@ -282,6 +282,27 @@ describe("ateFood()", function() {
     assert.equal(snake.ateFood(allFood), false);
   });
 });
+
+describe("hitItself()", function() {
+  context("returns whether the snake hit iself or not", function() {
+
+    it("returns true when the snake hitItself", function() {
+      let snake = new Snake();
+      snake.startLength();
+      snake.addSegment();
+      snake.tail.x = snake.head.x
+      snake.tail.y = snake.head.y
+      assert.equal(snake.hitItself(), true);
+    });
+
+    it("returns false when the snake did NOT hitItself", function() {
+      let snake = new Snake();
+      snake.startLength();
+      snake.addSegment();
+      assert.equal(snake.hitItself(), false);
+    });
+  });
+});
 describe("isDead()", function() {
   context("returns whether the snake is dead or not", function() {
 
@@ -308,6 +329,30 @@ describe("isDead()", function() {
       game.canvas.height = 1000;
       let snake = new Snake(game);
       assert.notEqual(snake.isDead(), true);
+    });
+
+    it("returns true when the snake hitItself", function() {
+      let game = stub();
+      game.canvas = stub();
+      game.canvas.width = 1000;
+      game.canvas.height = 1000;
+      let snake = new Snake(game);
+      snake.startLength();
+      snake.addSegment();
+      snake.tail.x = snake.head.x
+      snake.tail.y = snake.head.y
+      assert.equal(snake.isDead(), true);
+    });
+
+    it("returns false when the snake did NOT hit itself, is not on wall", function() {
+      let game = stub();
+      game.canvas = stub();
+      game.canvas.width = 1000;
+      game.canvas.height = 1000;
+      let snake = new Snake(game);
+      snake.startLength();
+      snake.addSegment();
+      assert.equal(snake.isDead(), false);
     });
   });
 });
