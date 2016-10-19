@@ -47,19 +47,12 @@
 	__webpack_require__(1);
 
 	var Game = __webpack_require__(5);
+	var MenuTyper = __webpack_require__(14);
 	var ScoreBoard = __webpack_require__(13);
 	var canvas = document.getElementById('canvas');
 	var context = canvas.getContext('2d');
 	var scoreBoard = new ScoreBoard();
-
-	function populateScoreBoard(highScores) {
-	  $(".score").remove();
-	  $("#scoreboard-post-type").hide();
-	  highScores.forEach(function (score, index) {
-	    $("#scoreboard-post-type").append("<p class='score'>" + index + ". Jenny: " + score + "</p>");
-	  });
-	  typeStuff(" cat leaderboard.txt", $("#scoreboard-typer"), "scoreboard");
-	}
+	var menuTyper = new MenuTyper();
 
 	function clearStatusMenu() {
 	  $(".echo").remove();
@@ -70,13 +63,13 @@
 	  $(".menu").hide();
 	  $(".instructions").show();
 	  $("#instructions-post-type").hide();
-	  typeStuff(" cat instructions.txt", $("#instructions-typer"), "instructions");
+	  menuTyper.typeStuff(" cat instructions.txt", $("#instructions-typer"), "instructions");
 	}
 
 	function setupPregameDisplay() {
 	  clearStatusMenu();
 	  showInstructions();
-	  populateScoreBoard(scoreBoard.getHighScores());
+	  $(".add-leader").hide();
 	  $("#restartButton").on("click", function () {
 	    gameLoop();
 	  });
@@ -84,17 +77,15 @@
 
 	function setupGameDisplay() {
 	  clearStatusMenu();
-	  populateScoreBoard(scoreBoard.getHighScores());
 	  $("#restartButton").hide();
 	  $(".status p").remove();
 	  $("#status-tab").click();
+	  $("#currentConversion").html("Binary:");
 	}
 
 	function setupPostgameDisplay(score) {
 	  $("#restartButton").show();
-	  $("#scoreboard-tab").click();
-	  scoreBoard.updateHighScores(score);
-	  populateScoreBoard(scoreBoard.getHighScores());
+	  scoreBoard.getLeaderName(score);
 	}
 
 	function gameLoop() {
@@ -125,35 +116,18 @@
 	    showInstructions();
 	  }
 	  if ($(this).attr('target') === "scoreboard") {
-	    populateScoreBoard(scoreBoard.getHighScores());
+	    scoreBoard.populate();
 	  }
 	});
 
-	function cursorAnimation() {
-	  $('.new-cursor').animate({
-	    opacity: 0
-	  }, 'slow', 'swing').animate({
-	    opacity: 1
-	  }, 'slow ', 'swing');
-	}
-
-	function typeStuff(text, container, menuName) {
-	  // $(".new-cursor").show();
-	  setInterval(cursorAnimation, 800);
-	  var textLength = 0;
-	  function typer() {
-	    container.html(text.substr(0, textLength++));
-	    if (textLength < text.length + 1) {
-	      setTimeout(typer, 80);
-	    } else {
-	      $("#" + menuName + "-post-type").fadeIn(700);
-	      $(".new-cursor").hide();
-	      textLength = 0;
-	      text = '';
-	    }
+	$("#leaderName").on("keydown", function (event) {
+	  if (event.which == 13 || event.keycode == 13) {
+	    var leaderName = $("#leaderName").html();
+	    scoreBoard.updateHighScores(leaderName);
+	    $(".add-leader").hide();
+	    $("#leaderName").html("Enter Name Here.");
 	  }
-	  typer();
-	}
+	});
 
 /***/ },
 /* 1 */
@@ -190,7 +164,7 @@
 
 
 	// module
-	exports.push([module.id, "canvas {\n  border: 1px solid;\n  margin-top: 25px;\n  margin-left: 20px;\n  float: left;\n  background: #333333; }\n\n#game {\n  position: relative; }\n\n#currentNumber {\n  margin-top: 25px;\n  margin-left: 525px;\n  font-size: 25px;\n  font-family: Courier; }\n\n.all-menus {\n  margin-top: 25px;\n  float: left;\n  margin-left: 50px; }\n\n.menu {\n  width: 380px;\n  background-color: #333333;\n  color: white;\n  font-family: monospace;\n  font-size: 14px;\n  padding: 10px;\n  max-height: 450px;\n  min-height: 450px; }\n\n.menu p {\n  margin-top: 0px;\n  margin-bottom: 0px; }\n\n.menu .terminal {\n  color: #55b848; }\n\n.cursor {\n  font-weight: 100;\n  color: #55b848;\n  -webkit-animation: 1s blink step-end infinite;\n  -moz-animation: 1s blink step-end infinite;\n  -ms-animation: 1s blink step-end infinite;\n  -o-animation: 1s blink step-end infinite;\n  animation: 1s blink step-end infinite; }\n\n@keyframes \"blink\" {\n  from, to {\n    color: transparent; }\n  50% {\n    color: #55b848; } }\n\n@-moz-keyframes blink {\n  from, to {\n    color: transparent; }\n  50% {\n    color: #55b848; } }\n\n@-webkit-keyframes \"blink\" {\n  from, to {\n    color: transparent; }\n  50% {\n    color: #55b848; } }\n\n@-ms-keyframes \"blink\" {\n  from, to {\n    color: transparent; }\n  50% {\n    color: #55b848; } }\n\n@-o-keyframes \"blink\" {\n  from, to {\n    color: transparent; }\n  50% {\n    color: #55b848; } }\n\n.tab-container {\n  margin: 0px;\n  padding: 0px; }\n\n.tab {\n  display: inline-block;\n  background-color: #b8b8b8;\n  padding-top: 8px;\n  padding-bottom: 8px;\n  font-size: 14px;\n  font-weight: bold;\n  font-family: monospace;\n  margin: 0px;\n  text-align: center;\n  width: 33%; }\n\n#status-tab {\n  border-left: 2px solid white;\n  border-right: 1px solid white;\n  margin-left: -4px;\n  margin-right: -4px; }\n\n.tab:hover {\n  text-decoration: none;\n  color: gray; }\n\n#restartButton {\n  top: 425px;\n  left: 360px;\n  position: fixed;\n  height: 100px;\n  font-size: 40px;\n  font-family: courier;\n  color: #333333;\n  background-color: #55b848; }\n\n.active-tab {\n  background-color: #D4D4D4; }\n", ""]);
+	exports.push([module.id, "body {\n  background: #66666a; }\n\ncanvas {\n  border: 1px solid;\n  margin-top: 25px;\n  margin-left: 20px;\n  float: left;\n  background: #333333; }\n\n#game {\n  position: relative; }\n\n#currentNumber {\n  margin-top: 25px;\n  margin-left: 245px; }\n\n.all-menus {\n  margin-top: 25px;\n  float: left;\n  margin-left: 50px; }\n\n.menu {\n  width: 380px;\n  background-color: #333333;\n  color: white;\n  font-family: monospace;\n  font-size: 14px;\n  padding: 10px;\n  max-height: 450px;\n  min-height: 450px; }\n\n.menu p {\n  margin-top: 0px;\n  margin-bottom: 0px; }\n\n.menu .terminal {\n  color: #55b848; }\n\n.cursor {\n  font-weight: 100;\n  color: #55b848;\n  -webkit-animation: 1s blink step-end infinite;\n  -moz-animation: 1s blink step-end infinite;\n  -ms-animation: 1s blink step-end infinite;\n  -o-animation: 1s blink step-end infinite;\n  animation: 1s blink step-end infinite; }\n\n@keyframes \"blink\" {\n  from, to {\n    color: transparent; }\n  50% {\n    color: #55b848; } }\n\n@-moz-keyframes blink {\n  from, to {\n    color: transparent; }\n  50% {\n    color: #55b848; } }\n\n@-webkit-keyframes \"blink\" {\n  from, to {\n    color: transparent; }\n  50% {\n    color: #55b848; } }\n\n@-ms-keyframes \"blink\" {\n  from, to {\n    color: transparent; }\n  50% {\n    color: #55b848; } }\n\n@-o-keyframes \"blink\" {\n  from, to {\n    color: transparent; }\n  50% {\n    color: #55b848; } }\n\n.tab-container {\n  margin: 0px;\n  padding: 0px; }\n\n.tab {\n  display: inline-block;\n  background-color: #b8b8b8;\n  padding-top: 8px;\n  padding-bottom: 8px;\n  font-size: 14px;\n  font-weight: bold;\n  font-family: monospace;\n  margin: 0px;\n  text-align: center;\n  width: 33%; }\n\n#status-tab {\n  border-left: 2px solid white;\n  border-right: 1px solid white;\n  margin-left: -4px;\n  margin-right: -4px; }\n\n.tab:hover {\n  text-decoration: none;\n  color: gray; }\n\n#restartButton {\n  top: 425px;\n  left: 360px;\n  position: fixed;\n  height: 100px;\n  font-size: 40px;\n  font-family: courier;\n  color: #333333;\n  background-color: #55b848; }\n\n.active-tab {\n  background-color: #D4D4D4; }\n\n#snakeLogo {\n  height: 75px;\n  width: 398px;\n  position: fixed;\n  top: 0px;\n  right: 40px; }\n\n.infoText {\n  font-family: courier;\n  font-size: 32px;\n  display: inline;\n  color: #55b848; }\n\n#currentConversion {\n  margin-left: 25px; }\n\n#currentScore {\n  position: fixed;\n  left: 750px; }\n", ""]);
 
 	// exports
 
@@ -523,9 +497,9 @@
 	    this.context = context;
 	    this.userInput = new UserInput(this);
 	    this.food = { 0: null, 1: null };
-	    this.speed = 2;
 	    this.currentNumber = new Num(1);
 	    this.score = 0;
+	    this.speed = 2;
 	  }
 
 	  setup() {
@@ -656,10 +630,17 @@
 	  }
 
 	  drawSegment(segment) {
-	    this.context.lineWidth = 2;
-	    this.context.strokeRect(segment.x, segment.y, segment.width, segment.height);
-	    this.context.fillStyle = "#00FF00";
-	    this.context.font = "20pt Courier ";
+	    if (segment.prev == null) {
+	      this.context.lineWidth = 2;
+	      this.context.strokeRect(segment.x, segment.y, segment.width, segment.height);
+	      this.context.fillRect(segment.x, segment.y, segment.width, segment.height);
+	      this.context.font = "20pt Courier ";
+	    } else {
+	      this.context.lineWidth = 2;
+	      this.context.strokeRect(segment.x, segment.y, segment.width, segment.height);
+	      this.context.fillStyle = "#55b848";
+	      this.context.font = "20pt Courier ";
+	    }
 	  }
 
 	  drawFood(food) {
@@ -702,7 +683,7 @@
 	  }
 
 	  displayNumber(currentNumber) {
-	    $("#currentNumber").text(currentNumber.decimal);
+	    $("#currentNumber").text("Convert " + currentNumber.decimal + " into Binary");
 	  }
 
 	  displayGameOver() {
@@ -11017,7 +10998,7 @@
 	        this.head.y = this.head.y + this.head.height;
 	        break;
 	      default:
-	        return; //this is pausing the game.
+	        return;
 	    }
 	  }
 
@@ -11194,32 +11175,122 @@
 
 /***/ },
 /* 13 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
+
+	var MenuTyper = __webpack_require__(14);
+	var menuTyper = new MenuTyper();
 
 	class ScoreBoard {
 	  constructor() {
 	    this.currentHighScores = this.getHighScores();
+	    this.newScore = null;
 	  }
-	  updateHighScores(currentScore) {
-	    this.currentHighScores.push(currentScore);
-	    var scores = this.currentHighScores;
-	    var sortedScores = scores.sort(function (a, b) {
-	      return parseInt(b) - parseInt(a);
+
+	  updateHighScores(leaderName) {
+	    this.currentHighScores.push(leaderName + "~" + this.newScore);
+	    var scores = this.currentHighScores.map(function (score) {
+	      return score.split("~");
 	    });
-	    localStorage.setItem("highScores", sortedScores.slice(0, 9));
+
+	    var topScores = scores.sort(function (a, b) {
+	      return parseInt(b[1]) - parseInt(a[1]);
+	    }).slice(0, 10);
+
+	    this.currentHighScores = topScores.map(function (score) {
+	      return score.join("~");
+	    });
+
+	    localStorage.setItem("highScores", this.currentHighScores);
+
+	    this.populate();
+	  }
+
+	  getLeaderName(score) {
+	    this.newScore = score;
+	    if (score > this.lowestScore() || this.roomAvailable()) {
+	      $(".score").remove();
+	      this.topScoreClick();
+	      $(".add-leader").show();
+	    }
+	  }
+
+	  topScoreClick() {
+	    $('.tab').removeClass("active-tab");
+	    $('#scoreboard-tab').addClass("active-tab");
+	    $('.menu').hide();
+	    $('.scoreboard').show();
 	  }
 
 	  getHighScores() {
 	    if (!localStorage.highScores) {
-	      localStorage.setItem("highScores", "0");
+	      localStorage.setItem("highScores", "Snake~0");
 	      return [localStorage.getItem("highScores")];
 	    } else {
 	      return localStorage.getItem("highScores").split(",");
 	    }
 	  }
+
+	  numHighScores() {
+	    return this.currentHighScores.length;
+	  }
+
+	  roomAvailable() {
+	    return this.numHighScores() < 10;
+	  }
+
+	  lowestScore() {
+	    return this.currentHighScores[this.numHighScores() - 1].split("~")[1];
+	  }
+
+	  populate() {
+	    $(".score").remove();
+	    $("#scoreboard-post-type").hide();
+	    this.currentHighScores.forEach(function (score, index) {
+	      var scoreInfo = score.split("~");
+	      $("#scoreboard-post-type").append("<p class='score'>" + index + ". " + scoreInfo[0] + " : " + scoreInfo[1] + "</p>");
+	    });
+	    menuTyper.typeStuff(" cat leaderboard.txt", $("#scoreboard-typer"), "scoreboard");
+	  }
+
 	}
 
 	module.exports = ScoreBoard;
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	class MenuTyper {
+	  constructor() {}
+
+	  cursorAnimation() {
+	    $('.new-cursor').animate({
+	      opacity: 0
+	    }, 'slow', 'swing').animate({
+	      opacity: 1
+	    }, 'slow ', 'swing');
+	  }
+
+	  typeStuff(text, container, menuName) {
+	    setInterval(this.cursorAnimation, 800);
+	    var textLength = 0;
+	    function typer() {
+	      container.html(text.substr(0, textLength++));
+	      if (textLength < text.length + 1) {
+	        setTimeout(typer, 80);
+	      } else {
+	        $("#" + menuName + "-post-type").fadeIn(700);
+	        $(".new-cursor").hide();
+	        textLength = 0;
+	        text = '';
+	      }
+	    }
+	    typer();
+	  }
+
+	}
+
+	module.exports = MenuTyper;
 
 /***/ }
 /******/ ]);
