@@ -1,3 +1,7 @@
+body {
+  background: #66666a;
+}
+
 canvas {
   border: 1px solid;
   margin-top: 25px;
@@ -12,9 +16,7 @@ canvas {
 
 #currentNumber {
   margin-top: 25px;
-  margin-left: 525px;
-  font-size: 25px;
-  font-family: Courier;
+  margin-left: 245px;
 }
 
 .all-menus {
@@ -143,4 +145,33 @@ canvas {
 
 .active-tab {
   background-color: #D4D4D4;
+}
+
+#snakeLogo {
+  height: 75px;
+  width: 398px;
+  position: fixed;
+  top: 0px;
+  right: 40px;
+}
+
+// .logoContainer {
+//   background-color: black;
+//   width: 380px;
+// }
+
+.infoText {
+  font-family: courier;
+  font-size: 32px;
+  display: inline;
+  color: #55b848;
+}
+
+#currentConversion {
+  margin-left: 25px;
+}
+
+#currentScore {
+  position: fixed;
+  left: 750px;
 }

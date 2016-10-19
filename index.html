@@ -12,13 +12,20 @@
 </head>
 <body>
 
-  <div id="currentNumber"></div>
-  <div><p id="currentConversion">Binary: </p></div>
-  <div><p id="currentScore"></p></div>
+  <div id="currentNumber" class="infoText"></div>
+  <div>
+    <div id="currentConversion" class="infoText"></div>
+    <div id="currentScore" class="infoText"></div>
+  </div>
+
+
   <div class="game">
     <canvas id="canvas" height="500" width="900"></canvas>
     <button type="button" id="restartButton">Click to Play</button>
   </div>
+
+<div class="logoContainer"><img src="http://pixelartmaker.com/art/27afe53d916da83.png" alt="snake" id="snakeLogo" class="all-menus"><div>
+
 
   <div class="all-menus">
 
@@ -46,14 +53,13 @@
     </div>
 
     <div class="menu scoreboard">
-        <p class="command"><span class="terminal">[snake]: ~$</span><span id="scoreboard-typer"></span><span class="new-cursor">|</span></p><br>
-        <div id="scoreboard-post-type"></div>
-        <p class="prompt"><span class="terminal">[snake]: ~$</span><span class="cursor">|</span></p>
-
+      <p class="command"><span class="terminal">[snake]: ~$</span><span id="scoreboard-typer"></span><span class="new-cursor">|</span></p><br>
+      <div id="scoreboard-post-type"></div>
+      <div class="add-leader">
+        <p><span class="terminal">[snake]: ~$</span>Congratulations! Add your name to the leaderboard</p>
+        <p class="prompt"><span class="terminal">[snake]: ~$</span> <span id="leaderName" contenteditable="true">Enter Name Here.</span><span class="cursor">|</span></p>
+      </div>
     </div>
-
-
-
   </div>
 
   <script src="main.bundle.js"></script>
