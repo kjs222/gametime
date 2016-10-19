@@ -3,8 +3,6 @@ const assert = chai.assert;
 const ScoreBoard = require('../lib/scoreBoard');
 const stub = require('./support/stub');
 
-// let context = stub();
-
 describe("ScoreBoard", function(){
 
   context("with default attributes", function(){
@@ -63,7 +61,6 @@ describe("numHighScores()", function(){
     scoreBoard.currentHighScores = ["Kerry~2", "Kerry~1", "Kerry~8"]
     assert.equal(scoreBoard.numHighScores(), 3);
   });
-
 });
 
 
