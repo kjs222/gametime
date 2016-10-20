@@ -1,7 +1,6 @@
 const chai = require('chai');
 const assert = chai.assert;
 const stub = require('./support/stub');
-
 const Snake = require('../lib/snake');
 const Segment = require('../lib/segment');
 const Game = require('../lib/game');
@@ -282,6 +281,7 @@ describe("ateFood()", function() {
     assert.equal(snake.ateFood(allFood), false);
   });
 });
+
 describe("isDead()", function() {
   context("returns whether the snake is dead or not", function() {
 

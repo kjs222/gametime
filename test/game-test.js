@@ -1,7 +1,6 @@
 const chai = require('chai');
 const assert = chai.assert;
 const stub = require('./support/stub');
-
 const Game = require('../lib/game');
 const Snake = require('../lib/snake');
 const Food = require('../lib/food');
@@ -221,7 +220,6 @@ describe("snakeAteFood()", function(){
     assert.isNotNull(game.food[0]);
     assert.isNotNull(game.food[1]);
   });
-
 });
 
 describe("updateSnake()", function(){
@@ -310,7 +308,6 @@ describe("replenishFood()", function(){
     assert(game.food[1].x);
     assert(game.food[1].y);
     assert.equal(game.food[1].binary, 1);
-
   });
 
   it('should replenish food when food is null', function(){

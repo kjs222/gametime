@@ -1,6 +1,5 @@
 let chai = require('chai');
 let assert = chai.assert;
-
 const UserInput = require("../lib/userInput.js");
 const Game = require("../lib/game.js");
 
