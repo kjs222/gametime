@@ -85,5 +85,6 @@ describe("updateHighScores()", function(){
     scoreBoard.newScore = 9;
     scoreBoard.updateHighScores("Jenny");
     assert.equal(scoreBoard.currentHighScores.length, 10);
+    localStorage.clear();
   });
 });
