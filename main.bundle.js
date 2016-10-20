@@ -11174,6 +11174,7 @@
 	      $('.menu').hide();
 	      $('.' + $(e.target).attr('target')).show();
 	      if ($(e.target).attr('target') === "instructions") {
+	        this.menuTyper.cursorAnimation();
 	        this.showInstructions();
 	      }
 	      if ($(e.target).attr('target') === "scoreboard") {
@@ -11184,12 +11185,16 @@
 
 	  scoreBoardListener() {
 	    $(".add-leader").hide();
+	    $("#leaderName").on("click", function (event) {
+	      $(this).html("");
+	    });
 	    $("#leaderName").on("keydown", function (event) {
 	      if (event.which === 13 || event.keycode === 13) {
 	        var leaderName = $("#leaderName").html();
 	        this.scoreBoard.updateHighScores(leaderName);
+	        $('.scoreboard .command').show();
 	        $(".add-leader").hide();
-	        $("#leaderName").html("Enter Name Here.");
+	        $("#leaderName").html("Click to enter name.");
 	        this.populateScoreboard(this.scoreBoard.currentHighScores);
 	      }
 	    }.bind(this));
@@ -11310,6 +11315,7 @@
 	    $('#scoreboard-tab').addClass("active-tab");
 	    $('.menu').hide();
 	    $('.scoreboard').show();
+	    $('.scoreboard .command').hide();
 	  }
 
 	  getHighScores() {
