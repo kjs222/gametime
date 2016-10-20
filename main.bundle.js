@@ -46,55 +46,25 @@
 
 	__webpack_require__(1);
 
-	var Game = __webpack_require__(5);
-	var ScoreBoard = __webpack_require__(13);
+	var $ = __webpack_require__(5);
+	var Game = __webpack_require__(6);
+	var Menu = __webpack_require__(13);
 	var canvas = document.getElementById('canvas');
 	var context = canvas.getContext('2d');
-	var scoreBoard = new ScoreBoard();
-
-	function populateScoreBoard(highScores) {
-	  $(".score").remove();
-	  $("#scoreboard-post-type").hide();
-	  highScores.forEach(function (score, index) {
-	    $("#scoreboard-post-type").append("<p class='score'>" + index + ". Jenny: " + score + "</p>");
-	  });
-	  typeStuff(" cat leaderboard.txt", $("#scoreboard-typer"), "scoreboard");
-	}
-
-	function clearStatusMenu() {
-	  $(".echo").remove();
-	  $(".binary").remove();
-	}
-
-	function showInstructions() {
-	  $(".menu").hide();
-	  $(".instructions").show();
-	  $("#instructions-post-type").hide();
-	  typeStuff(" cat instructions.txt", $("#instructions-typer"), "instructions");
-	}
+	var menu = new Menu();
 
 	function setupPregameDisplay() {
-	  clearStatusMenu();
-	  showInstructions();
-	  populateScoreBoard(scoreBoard.getHighScores());
-	  $("#restartButton").on("click", function () {
-	    gameLoop();
-	  });
+	  menu.setup();
+	  $("#restartButton").on("click", gameLoop);
 	}
 
 	function setupGameDisplay() {
-	  clearStatusMenu();
-	  populateScoreBoard(scoreBoard.getHighScores());
-	  $("#restartButton").hide();
-	  $(".status p").remove();
-	  $("#status-tab").click();
+	  menu.prepareForGame();
 	}
 
 	function setupPostgameDisplay(score) {
 	  $("#restartButton").show();
-	  $("#scoreboard-tab").click();
-	  scoreBoard.updateHighScores(score);
-	  populateScoreBoard(scoreBoard.getHighScores());
+	  menu.scoreBoard.getLeaderName(score);
 	}
 
 	function gameLoop() {
@@ -102,7 +72,7 @@
 	  setupGameDisplay();
 	  game.setup();
 	  requestAnimationFrame(function gamePlay() {
-	    if (!game.snake.isDead()) {
+	    if (game.inProgress()) {
 	      game.gameLoop();
 	      setTimeout(function () {
 	        requestAnimationFrame(gamePlay);
@@ -116,44 +86,11 @@
 
 	setupPregameDisplay();
 
-	$(".tab").on('click', function () {
-	  $('.tab').removeClass("active-tab");
-	  $(this).addClass("active-tab");
-	  $('.menu').hide();
-	  $('.' + $(this).attr('target')).show();
-	  if ($(this).attr('target') === "instructions") {
-	    showInstructions();
+	window.addEventListener("keydown", function (e) {
+	  if ([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+	    e.preventDefault();
 	  }
-	  if ($(this).attr('target') === "scoreboard") {
-	    populateScoreBoard(scoreBoard.getHighScores());
-	  }
-	});
-
-	function cursorAnimation() {
-	  $('.new-cursor').animate({
-	    opacity: 0
-	  }, 'slow', 'swing').animate({
-	    opacity: 1
-	  }, 'slow ', 'swing');
-	}
-
-	function typeStuff(text, container, menuName) {
-	  // $(".new-cursor").show();
-	  setInterval(cursorAnimation, 800);
-	  var textLength = 0;
-	  function typer() {
-	    container.html(text.substr(0, textLength++));
-	    if (textLength < text.length + 1) {
-	      setTimeout(typer, 80);
-	    } else {
-	      $("#" + menuName + "-post-type").fadeIn(700);
-	      $(".new-cursor").hide();
-	      textLength = 0;
-	      text = '';
-	    }
-	  }
-	  typer();
-	}
+	}, false);
 
 /***/ },
 /* 1 */
@@ -190,7 +127,7 @@
 
 
 	// module
-	exports.push([module.id, "canvas {\n  border: 1px solid;\n  margin-top: 25px;\n  margin-left: 20px;\n  float: left;\n  background: #333333; }\n\n#game {\n  position: relative; }\n\n#currentNumber {\n  margin-top: 25px;\n  margin-left: 525px;\n  font-size: 25px;\n  font-family: Courier; }\n\n.all-menus {\n  margin-top: 25px;\n  float: left;\n  margin-left: 50px; }\n\n.menu {\n  width: 380px;\n  background-color: #333333;\n  color: white;\n  font-family: monospace;\n  font-size: 14px;\n  padding: 10px;\n  max-height: 450px;\n  min-height: 450px; }\n\n.menu p {\n  margin-top: 0px;\n  margin-bottom: 0px; }\n\n.menu .terminal {\n  color: #55b848; }\n\n.cursor {\n  font-weight: 100;\n  color: #55b848;\n  -webkit-animation: 1s blink step-end infinite;\n  -moz-animation: 1s blink step-end infinite;\n  -ms-animation: 1s blink step-end infinite;\n  -o-animation: 1s blink step-end infinite;\n  animation: 1s blink step-end infinite; }\n\n@keyframes \"blink\" {\n  from, to {\n    color: transparent; }\n  50% {\n    color: #55b848; } }\n\n@-moz-keyframes blink {\n  from, to {\n    color: transparent; }\n  50% {\n    color: #55b848; } }\n\n@-webkit-keyframes \"blink\" {\n  from, to {\n    color: transparent; }\n  50% {\n    color: #55b848; } }\n\n@-ms-keyframes \"blink\" {\n  from, to {\n    color: transparent; }\n  50% {\n    color: #55b848; } }\n\n@-o-keyframes \"blink\" {\n  from, to {\n    color: transparent; }\n  50% {\n    color: #55b848; } }\n\n.tab-container {\n  margin: 0px;\n  padding: 0px; }\n\n.tab {\n  display: inline-block;\n  background-color: #b8b8b8;\n  padding-top: 8px;\n  padding-bottom: 8px;\n  font-size: 14px;\n  font-weight: bold;\n  font-family: monospace;\n  margin: 0px;\n  text-align: center;\n  width: 33%; }\n\n#status-tab {\n  border-left: 2px solid white;\n  border-right: 1px solid white;\n  margin-left: -4px;\n  margin-right: -4px; }\n\n.tab:hover {\n  text-decoration: none;\n  color: gray; }\n\n#restartButton {\n  top: 425px;\n  left: 360px;\n  position: fixed;\n  height: 100px;\n  font-size: 40px;\n  font-family: courier;\n  color: #333333;\n  background-color: #55b848; }\n\n.active-tab {\n  background-color: #D4D4D4; }\n", ""]);
+	exports.push([module.id, "body {\n  background-image: url(\"https://s-media-cache-ak0.pinimg.com/originals/5f/50/6b/5f506bc2895a2054eaad7910cef567cb.jpg\");\n  background-size: auto;\n  opacity: .85; }\n\ncanvas {\n  border: 1px solid;\n  margin-left: 35px;\n  float: left;\n  background: #333333; }\n\n#game {\n  position: relative; }\n\n#currentNumber {\n  margin-top: 25px;\n  margin-left: 245px; }\n\n.all-menus {\n  margin-top: 45px; }\n\n.menu {\n  width: 400px;\n  background-color: #333333;\n  color: white;\n  font-family: monospace;\n  font-size: 14px;\n  padding: 10px;\n  min-height: 475px; }\n\n.menu p {\n  margin-top: 0px;\n  margin-bottom: 0px; }\n\n.menu .terminal {\n  color: #55b848; }\n\n.cursor {\n  font-weight: 100;\n  color: #55b848;\n  -webkit-animation: 1s blink step-end infinite;\n  -moz-animation: 1s blink step-end infinite;\n  -ms-animation: 1s blink step-end infinite;\n  -o-animation: 1s blink step-end infinite;\n  animation: 1s blink step-end infinite; }\n\n@keyframes \"blink\" {\n  from, to {\n    color: transparent; }\n  50% {\n    color: #55b848; } }\n\n@-moz-keyframes blink {\n  from, to {\n    color: transparent; }\n  50% {\n    color: #55b848; } }\n\n@-webkit-keyframes \"blink\" {\n  from, to {\n    color: transparent; }\n  50% {\n    color: #55b848; } }\n\n@-ms-keyframes \"blink\" {\n  from, to {\n    color: transparent; }\n  50% {\n    color: #55b848; } }\n\n@-o-keyframes \"blink\" {\n  from, to {\n    color: transparent; }\n  50% {\n    color: #55b848; } }\n\n.tab-container {\n  margin: 0px;\n  padding: 0px; }\n\n.tab {\n  display: inline-block;\n  background-color: #b8b8b8;\n  padding-top: 8px;\n  padding-bottom: 8px;\n  font-size: 14px;\n  font-weight: bold;\n  font-family: monospace;\n  margin: 0px;\n  text-align: center;\n  width: 31.6%; }\n\n#status-tab {\n  border-left: 2px solid white;\n  border-right: 1px solid white;\n  margin-left: -4px;\n  margin-right: -4px; }\n\n.tab:hover {\n  text-decoration: none;\n  color: gray; }\n\n#restartButton {\n  top: 425px;\n  left: 360px;\n  position: fixed;\n  height: 100px;\n  font-size: 40px;\n  font-family: courier;\n  color: #333333;\n  background-color: #55b848; }\n\n.active-tab {\n  background-color: #D4D4D4; }\n\n#snakeLogo {\n  height: 75px;\n  width: 400px;\n  top: 0px;\n  margin-left: 11px; }\n\n.infoText {\n  font-family: courier;\n  font-size: 32px;\n  display: inline;\n  color: #55b848; }\n\n#currentConversion {\n  margin-left: 25px; }\n\n#currentScore {\n  position: fixed;\n  left: 750px; }\n", ""]);
 
 	// exports
 
@@ -505,258 +442,6 @@
 
 /***/ },
 /* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Render = __webpack_require__(6);
-	var Snake = __webpack_require__(9);
-	var UserInput = __webpack_require__(10);
-	var Food = __webpack_require__(11);
-	var Num = __webpack_require__(12);
-	var scoreBoard = __webpack_require__(13);
-	var $ = __webpack_require__(8);
-
-	class Game {
-	  constructor(canvas, context) {
-	    this.snake = new Snake(this);
-	    this.render = new Render(canvas, context);
-	    this.canvas = canvas;
-	    this.context = context;
-	    this.userInput = new UserInput(this);
-	    this.food = { 0: null, 1: null };
-	    this.speed = 2;
-	    this.currentNumber = new Num(1);
-	    this.score = 0;
-	  }
-
-	  setup() {
-	    this.userInput.getUserInput();
-	    this.replenishFood();
-	    this.displayNumber();
-	    this.render.displayEchoCommand(this.currentNumber);
-	    this.snake.startLength();
-	  }
-
-	  gameLoop() {
-	    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-	    this.update();
-	    this.draw();
-	  }
-
-	  update() {
-	    this.updateSnake();
-	    this.handleSolvedNumber();
-	    this.displayScore();
-	    this.displayNumber();
-	  }
-
-	  draw() {
-	    this.render.draw(this.snake.tail, this.food);
-	  }
-
-	  selectFoodCoordinates() {
-	    var snakeLocation = this.snake.occupiedCoordinates();
-	    var proposedFoodLocation = this.getRandomCoords();
-	    for (var i = 0; i < snakeLocation.length; i++) {
-	      if (snakeLocation[i].x == proposedFoodLocation.x && snakeLocation[i].y == proposedFoodLocation.y) {
-	        return this.selectFoodCoordinates();
-	      }
-	    }
-	    return proposedFoodLocation;
-	  }
-
-	  generateNewFoodItem(bitType) {
-	    var otherBit = bitType === 0 ? 1 : 0;
-	    var foodCoords = this.determineFoodLocation(otherBit);
-	    var food = new Food(foodCoords.x, foodCoords.y, bitType);
-	    this.food[bitType] = food;
-	  }
-
-	  replenishFood() {
-	    if (this.food[0] === null) {
-	      this.generateNewFoodItem(0);
-	    }
-	    if (this.food[1] === null) {
-	      this.generateNewFoodItem(1);
-	    }
-	  }
-
-	  determineFoodLocation(otherBit) {
-	    var proposedFoodCoords = this.selectFoodCoordinates();
-	    if (this.food[otherBit] && proposedFoodCoords.x === this.food[otherBit].x && proposedFoodCoords.y === this.food[otherBit].y) {
-	      proposedFoodCoords = this.selectFoodCoordinates();
-	    }
-	    return proposedFoodCoords;
-	  }
-
-	  snakeAteCorrectFood(foodBitEaten) {
-	    return this.currentNumber.nextBit() === foodBitEaten.toString();
-	  }
-
-	  snakeAteFood() {
-	    var foodEaten = this.snake.ateFood(this.food);
-	    if (this.snakeAteCorrectFood(foodEaten)) {
-	      this.food[foodEaten] = null;
-	      this.render.updateCurrentConversion(foodEaten);
-	      this.currentNumber.updateBitsToEat();
-	      this.snake.addSegment();
-	    } else if (foodEaten !== false) {
-	      this.food[foodEaten] = null;
-	      this.snake.loseTwoSegment();
-	    }
-	  }
-
-	  updateSnake() {
-	    this.snake.moveSnake();
-	    this.snakeAteFood();
-	    this.replenishFood();
-	  }
-
-	  handleSolvedNumber() {
-	    if (this.currentNumber.isSolved()) {
-	      this.render.displayEchoedBinary(this.currentNumber);
-	      this.currentNumber = new Num(this.currentNumber.decimal + 1);
-	      this.render.displayEchoCommand(this.currentNumber);
-	      this.render.clearConversion();
-	      this.updateScore();
-	    }
-	  }
-
-	  updateScore() {
-	    this.score++;
-	  }
-
-	  getRandomCoords() {
-	    var randomX = (Math.floor(Math.random() * (this.canvas.width - 20) / 20) + 1) * 20;
-	    var randomY = (Math.floor(Math.random() * (this.canvas.height - 20) / 20) + 1) * 20;
-	    return { x: randomX, y: randomY };
-	  }
-
-	  displayNumber() {
-	    this.render.displayNumber(this.currentNumber);
-	  }
-
-	  displayScore() {
-	    this.render.displayScore(this.score);
-	  }
-	}
-
-	module.exports = Game;
-
-/***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Segment = __webpack_require__(7);
-	var $ = __webpack_require__(8);
-
-	class Render {
-	  constructor(canvas, context) {
-	    this.canvas = canvas;
-	    this.context = context;
-	  }
-
-	  drawSegment(segment) {
-	    this.context.lineWidth = 2;
-	    this.context.strokeRect(segment.x, segment.y, segment.width, segment.height);
-	    this.context.fillStyle = "#00FF00";
-	    this.context.font = "20pt Courier ";
-	  }
-
-	  drawFood(food) {
-	    this.context.font = "12pt Courier ";
-	    this.context.strokeStyle = "#55b848";
-	    this.context.fillStyle = "#333333";
-	    this.context.fillRect(food[0].x, food[0].y, food[0].width, food[0].height);
-	    this.context.strokeRect(food[0].x, food[0].y, food[0].width, food[0].height);
-	    this.context.fillStyle = "#55b848";
-	    this.context.fillText("0", food[0].x + 5, food[0].y + 16);
-
-	    this.context.fillStyle = "#333333";
-	    this.context.fillRect(food[1].x, food[1].y, food[1].width, food[1].height);
-	    this.context.strokeRect(food[1].x, food[1].y, food[1].width, food[1].height);
-	    this.context.fillStyle = "#55b848";
-	    this.context.fillText("1", food[1].x + 5, food[1].y + 16);
-	  }
-
-	  drawSnake(currentSegment) {
-	    this.drawSegment(currentSegment);
-	    if (currentSegment.prev) {
-	      this.drawSnake(currentSegment.prev);
-	    } else {
-	      return;
-	    }
-	  }
-
-	  draw(tail, food) {
-	    this.drawSnake(tail);
-	    this.drawFood(food);
-	  }
-
-	  clearConversion() {
-	    $("#currentConversion").text("Binary: ");
-	  }
-
-	  updateCurrentConversion(foodEaten) {
-	    var currentText = $("#currentConversion").text();
-	    $("#currentConversion").text(currentText + foodEaten);
-	  }
-
-	  displayNumber(currentNumber) {
-	    $("#currentNumber").text(currentNumber.decimal);
-	  }
-
-	  displayGameOver() {
-	    var context = this.context;
-	    context.font = "72px Courier";
-	    context.fillStyle = "00FF00";
-	    context.fillText("Game Over", 300, 250);
-	  }
-
-	  displayScore(score) {
-	    $("#currentScore").text("Score: " + score);
-	  }
-
-	  removeEchoCommands() {
-	    var numEchos = $(".echo").length;
-	    if (numEchos > 2) {
-	      $(".status").closest("p").remove();
-	      $(".status").closest("p").remove();
-	    }
-	  }
-
-	  displayEchoCommand(currentNumber) {
-	    var terminal = '<span class="terminal echo">[snake]: ~$</span>';
-	    var command = " echo 'obase=2;" + currentNumber.decimal + "' | bc";
-	    $(".status").append('<p class="echo">' + terminal + command + '</p>');
-	    this.removeEchoCommands();
-	  }
-
-	  displayEchoedBinary(currentNumber) {
-	    $(".status").append("<p class='binary'>" + currentNumber.binary + "</p>");
-	  }
-
-	}
-
-	module.exports = Render;
-
-/***/ },
-/* 7 */
-/***/ function(module, exports) {
-
-	class Segment {
-	  constructor(x, y) {
-	    this.height = 20;
-	    this.width = 20;
-	    this.x = x;
-	    this.y = y;
-	    this.prev = null;
-	  }
-	}
-
-	module.exports = Segment;
-
-/***/ },
-/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10982,10 +10667,260 @@
 
 
 /***/ },
-/* 9 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Segment = __webpack_require__(7);
+	var Render = __webpack_require__(7);
+	var Snake = __webpack_require__(8);
+	var UserInput = __webpack_require__(10);
+	var Food = __webpack_require__(11);
+	var Num = __webpack_require__(12);
+
+	class Game {
+	  constructor(canvas, context) {
+	    this.snake = new Snake(this);
+	    this.render = new Render(canvas, context);
+	    this.canvas = canvas;
+	    this.context = context;
+	    this.userInput = new UserInput(this);
+	    this.food = { 0: null, 1: null };
+	    this.currentNumber = new Num(1);
+	    this.score = 0;
+	    this.speed = 2;
+	  }
+
+	  setup() {
+	    this.userInput.getUserInput();
+	    this.replenishFood();
+	    this.displayNumber();
+	    this.render.displayEchoCommand(this.currentNumber);
+	    this.snake.startLength();
+	  }
+
+	  gameLoop() {
+	    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	    this.update();
+	    this.draw();
+	  }
+
+	  update() {
+	    this.updateSnake();
+	    this.handleSolvedNumber();
+	    this.displayScore();
+	    this.displayNumber();
+	  }
+
+	  draw() {
+	    this.render.draw(this.snake.tail, this.food);
+	  }
+
+	  selectFoodCoordinates() {
+	    var snakeLocation = this.snake.occupiedCoordinates();
+	    var proposedFoodLocation = this.getRandomCoords();
+	    for (var i = 0; i < snakeLocation.length; i++) {
+	      if (snakeLocation[i].x === proposedFoodLocation.x && snakeLocation[i].y === proposedFoodLocation.y) {
+	        return this.selectFoodCoordinates();
+	      }
+	    }
+	    return proposedFoodLocation;
+	  }
+
+	  generateNewFoodItem(bitType) {
+	    var otherBit = bitType === 0 ? 1 : 0;
+	    var foodCoords = this.determineFoodLocation(otherBit);
+	    var food = new Food(foodCoords.x, foodCoords.y, bitType);
+	    this.food[bitType] = food;
+	  }
+
+	  replenishFood() {
+	    if (this.food[0] === null) {
+	      this.generateNewFoodItem(0);
+	    }
+	    if (this.food[1] === null) {
+	      this.generateNewFoodItem(1);
+	    }
+	  }
+
+	  determineFoodLocation(otherBit) {
+	    var proposedFoodCoords = this.selectFoodCoordinates();
+	    if (this.food[otherBit] && proposedFoodCoords.x === this.food[otherBit].x && proposedFoodCoords.y === this.food[otherBit].y) {
+	      proposedFoodCoords = this.selectFoodCoordinates();
+	    }
+	    return proposedFoodCoords;
+	  }
+
+	  snakeAteCorrectFood(foodBitEaten) {
+	    return this.currentNumber.nextBit() === foodBitEaten.toString();
+	  }
+
+	  snakeAteFood() {
+	    var foodEaten = this.snake.ateFood(this.food);
+	    if (this.snakeAteCorrectFood(foodEaten)) {
+	      this.food[foodEaten] = null;
+	      this.render.updateCurrentConversion(foodEaten);
+	      this.currentNumber.updateBitsToEat();
+	      this.snake.addSegment();
+	      this.updateScore();
+	    } else if (foodEaten !== false) {
+	      this.food[foodEaten] = null;
+	      this.snake.loseTwoSegment();
+	    }
+	  }
+
+	  updateSnake() {
+	    this.snakeAteFood();
+	    this.snake.moveSnake();
+	    this.replenishFood();
+	  }
+
+	  handleSolvedNumber() {
+	    if (this.currentNumber.isSolved()) {
+	      this.render.displayEchoedBinary(this.currentNumber);
+	      this.updateScore(this.currentNumber.decimal);
+	      this.currentNumber = new Num(this.currentNumber.decimal + 1);
+	      this.render.displayEchoCommand(this.currentNumber);
+	      this.render.clearConversion();
+	      this.snake.tail.solvedNumber = true;
+	    }
+	  }
+
+	  updateScore(num) {
+	    if (num) {
+	      this.score += num;
+	    } else {
+	      this.score++;
+	    }
+	  }
+
+	  inProgress() {
+	    return !this.snake.isDead();
+	  }
+
+	  getRandomCoords() {
+	    var randomX = (Math.floor(Math.random() * (this.canvas.width - 20) / 20) + 1) * 20;
+	    var randomY = (Math.floor(Math.random() * (this.canvas.height - 20) / 20) + 1) * 20;
+	    return { x: randomX, y: randomY };
+	  }
+
+	  displayNumber() {
+	    this.render.displayNumber(this.currentNumber);
+	  }
+
+	  displayScore() {
+	    this.render.displayScore(this.score);
+	  }
+	}
+
+	module.exports = Game;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $ = __webpack_require__(5);
+
+	class Render {
+	  constructor(canvas, context) {
+	    this.canvas = canvas;
+	    this.context = context;
+	  }
+
+	  drawSegment(segment, color) {
+	    this.context.strokeRect(segment.x, segment.y, segment.width, segment.height);
+	    this.context.lineWidth = 2;
+	    if (segment.prev === null) {
+	      this.context.fillRect(segment.x, segment.y, segment.width, segment.height);
+	    } else if (color) {
+	      this.context.fillStyle = color;
+	      this.context.fillRect(segment.x, segment.y, segment.width, segment.height);
+	    }
+	  }
+
+	  drawFood(food) {
+	    this.context.font = "12pt Courier ";
+	    this.context.strokeStyle = "#55b848";
+	    this.context.fillStyle = "#333333";
+	    this.context.fillRect(food[0].x, food[0].y, food[0].width, food[0].height);
+	    this.context.strokeRect(food[0].x, food[0].y, food[0].width, food[0].height);
+	    this.context.fillStyle = "#55b848";
+	    this.context.fillText("0", food[0].x + 5, food[0].y + 16);
+
+	    this.context.fillStyle = "#333333";
+	    this.context.fillRect(food[1].x, food[1].y, food[1].width, food[1].height);
+	    this.context.strokeRect(food[1].x, food[1].y, food[1].width, food[1].height);
+	    this.context.fillStyle = "#55b848";
+	    this.context.fillText("1", food[1].x + 5, food[1].y + 16);
+	  }
+
+	  drawSnake(currentSegment) {
+	    if (currentSegment.solvedNumber) {
+	      this.drawSegment(currentSegment, "#55b848");
+	    } else {
+	      this.drawSegment(currentSegment);
+	    }
+	    if (currentSegment.prev) {
+	      this.drawSnake(currentSegment.prev);
+	    } else {
+	      return;
+	    }
+	  }
+
+	  draw(tail, food) {
+	    this.drawSnake(tail);
+	    this.drawFood(food);
+	  }
+
+	  clearConversion() {
+	    $("#currentConversion").text("Binary: ");
+	  }
+
+	  updateCurrentConversion(foodEaten) {
+	    var currentText = $("#currentConversion").text();
+	    $("#currentConversion").text(currentText + foodEaten);
+	  }
+
+	  displayNumber(currentNumber) {
+	    $("#currentNumber").text("Convert " + currentNumber.decimal + " into Binary");
+	  }
+
+	  displayGameOver() {
+	    var context = this.context;
+	    context.font = "72px Courier";
+	    context.fillStyle = "00FF00";
+	    context.fillText("Game Over", 300, 250);
+	  }
+
+	  displayScore(score) {
+	    $("#currentScore").text("Score: " + score);
+	  }
+
+	  removeEchoCommands() {
+	    var numEchos = $(".echo").length;
+	    if (numEchos > 20) {
+	      $(".echo:first").remove();
+	      $(".binary:first").remove();
+	    }
+	  }
+
+	  displayEchoCommand(currentNumber) {
+	    var terminal = '<span class="terminal echo">[snake]: ~$</span>';
+	    var command = " echo 'obase=2;" + currentNumber.decimal + "' | bc";
+	    $(".status").append('<p class="echo">' + terminal + command + '</p>');
+	    this.removeEchoCommands();
+	  }
+
+	  displayEchoedBinary(currentNumber) {
+	    $(".status").append("<p class='binary'>" + currentNumber.binary + "</p>");
+	  }
+	}
+
+	module.exports = Render;
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Segment = __webpack_require__(9);
 
 	class Snake {
 	  constructor(game) {
@@ -11003,6 +10938,10 @@
 	  }
 
 	  moveHead() {
+	    if (this.head === null) {
+	      return;
+	    }
+
 	    switch (this.direction) {
 	      case 'left':
 	        this.head.x = this.head.x - this.head.width;
@@ -11017,40 +10956,40 @@
 	        this.head.y = this.head.y + this.head.height;
 	        break;
 	      default:
-	        return; //this is pausing the game.
+	        return;
 	    }
 	  }
 
 	  attemptedReverseDirection(previousDirection) {
-	    return previousDirection == "right" && this.direction == "left" || previousDirection == "left" && this.direction == "right" || previousDirection == "up" && this.direction == "down" || previousDirection == "down" && this.direction == "up";
+	    return previousDirection === "right" && this.direction === "left" || previousDirection === "left" && this.direction === "right" || previousDirection === "up" && this.direction === "down" || previousDirection === "down" && this.direction === "up";
 	  }
 
 	  addSegment() {
 	    var oldTail = this.tail;
 	    switch (this.direction) {
 	      case 'left':
-	        var newTail = new Segment(this.tail.x + this.tail.width, this.tail.y);
-	        this.tail = newTail;
+	        var leftNewTail = new Segment(this.tail.x + this.tail.width, this.tail.y);
+	        this.tail = leftNewTail;
 	        this.tail.prev = oldTail;
 	        break;
 	      case 'up':
-	        var newTail = new Segment(this.tail.x, this.tail.height + this.tail.y);
-	        this.tail = newTail;
+	        var upNewTail = new Segment(this.tail.x, this.tail.height + this.tail.y);
+	        this.tail = upNewTail;
 	        this.tail.prev = oldTail;
 	        break;
 	      case 'right':
-	        var newTail = new Segment(this.tail.x - this.tail.width, this.tail.y); //this one was wrong
-	        this.tail = newTail;
+	        var rightNewTail = new Segment(this.tail.x - this.tail.width, this.tail.y);
+	        this.tail = rightNewTail;
 	        this.tail.prev = oldTail;
 	        break;
 	      case 'down':
-	        var newTail = new Segment(this.tail.x, this.tail.y - this.tail.height);
-	        this.tail = newTail;
+	        var downNewTail = new Segment(this.tail.x, this.tail.y - this.tail.height);
+	        this.tail = downNewTail;
 	        this.tail.prev = oldTail;
 	        break;
 	      default:
-	        var newTail = new Segment(this.tail.x - this.tail.width, this.tail.y);
-	        this.tail = newTail;
+	        var defaultNewTail = new Segment(this.tail.x - this.tail.width, this.tail.y);
+	        this.tail = defaultNewTail;
 	        this.tail.prev = oldTail;
 	        return;
 	    }
@@ -11095,7 +11034,9 @@
 	  }
 
 	  loseTwoSegment() {
-	    if (this.tail.prev.prev) {
+	    if (this.tail.prev === null) {
+	      this.head = null;
+	    } else if (this.tail.prev.prev) {
 	      this.tail = this.tail.prev.prev;
 	    } else {
 	      this.head = null;
@@ -11112,6 +11053,23 @@
 	}
 
 	module.exports = Snake;
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	class Segment {
+	  constructor(x, y, solvedNumber) {
+	    this.height = 20;
+	    this.width = 20;
+	    this.x = x;
+	    this.y = y;
+	    this.prev = null;
+	    this.solvedNumber = solvedNumber || false;
+	  }
+	}
+
+	module.exports = Segment;
 
 /***/ },
 /* 10 */
@@ -11145,7 +11103,7 @@
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Segment = __webpack_require__(7);
+	var Segment = __webpack_require__(9);
 
 	class Food extends Segment {
 	  constructor(x, y, binary) {
@@ -11187,35 +11145,199 @@
 	  isSolved() {
 	    return this.bitsToEat.length < 1;
 	  }
-
 	}
 
 	module.exports = Num;
 
 /***/ },
 /* 13 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
+
+	var MenuTyper = __webpack_require__(14);
+	var ScoreBoard = __webpack_require__(15);
+	var $ = __webpack_require__(5);
+
+	class Menu {
+	  constructor() {
+	    this.scoreBoard = new ScoreBoard();
+	    this.menuTyper = new MenuTyper();
+	  }
+
+	  setup() {
+	    this.tabListener();
+	    this.scoreBoardListener();
+	    this.showInstructions();
+	    this.clearStatusMenu();
+	  }
+
+	  tabListener() {
+	    $(".tab").on('click', function (e) {
+	      $('.tab').removeClass("active-tab");
+	      $(e.target).addClass("active-tab");
+	      $('.menu').hide();
+	      $('.' + $(e.target).attr('target')).show();
+	      if ($(e.target).attr('target') === "instructions") {
+	        this.menuTyper.cursorAnimation();
+	        this.showInstructions();
+	      }
+	      if ($(e.target).attr('target') === "scoreboard") {
+	        this.populateScoreboard(this.scoreBoard.currentHighScores);
+	      }
+	    }.bind(this));
+	  }
+
+	  scoreBoardListener() {
+	    $(".add-leader").hide();
+	    $("#leaderName").on("click", function (event) {
+	      $(this).html("");
+	    });
+	    $("#leaderName").on("keydown", function (event) {
+	      if (event.which === 13 || event.keycode === 13) {
+	        var leaderName = $("#leaderName").html();
+	        this.scoreBoard.updateHighScores(leaderName);
+	        $('.scoreboard .command').show();
+	        $(".add-leader").hide();
+	        $("#leaderName").html("Click to enter name.");
+	        this.populateScoreboard(this.scoreBoard.currentHighScores);
+	      }
+	    }.bind(this));
+	  }
+
+	  showInstructions() {
+	    $(".menu").hide();
+	    $(".instructions").show();
+	    $("#instructions-post-type").hide();
+	    this.menuTyper.typeStuff(" cat instructions.txt", $("#instructions-typer"), "instructions");
+	  }
+
+	  clearStatusMenu() {
+	    $(".echo").remove();
+	    $(".binary").remove();
+	  }
+
+	  prepareForGame() {
+	    this.clearStatusMenu();
+	    $("#restartButton").hide();
+	    $("#currentConversion").html("Binary:");
+	    $(".status p").remove();
+	    $("#status-tab").click();
+	  }
+
+	  populateScoreboard(highScores) {
+	    $(".score").remove();
+	    $("#scoreboard-post-type").hide();
+	    highScores.forEach(function (score, index) {
+	      var scoreInfo = score.split("~");
+	      $("#scoreboard-post-type").append("<p class='score'>" + index + ". " + scoreInfo[0] + " : " + scoreInfo[1] + "</p>");
+	    });
+	    this.menuTyper.typeStuff(" cat leaderboard.txt", $("#scoreboard-typer"), "scoreboard");
+	  }
+	}
+
+	module.exports = Menu;
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $ = __webpack_require__(5);
+
+	class MenuTyper {
+	  constructor() {}
+
+	  cursorAnimation() {
+	    $('.new-cursor').animate({
+	      opacity: 0
+	    }, 'slow', 'swing').animate({
+	      opacity: 1
+	    }, 'slow ', 'swing');
+	  }
+
+	  typeStuff(text, container, menuName) {
+	    setInterval(this.cursorAnimation, 800);
+	    var textLength = 0;
+	    function typer() {
+	      container.html(text.substr(0, textLength++));
+	      if (textLength < text.length + 1) {
+	        setTimeout(typer, 80);
+	      } else {
+	        $("#" + menuName + "-post-type").fadeIn(700);
+	        $(".new-cursor").hide();
+	        textLength = 0;
+	        text = '';
+	      }
+	    }
+	    typer();
+	  }
+	}
+
+	module.exports = MenuTyper;
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $ = __webpack_require__(5);
 
 	class ScoreBoard {
 	  constructor() {
 	    this.currentHighScores = this.getHighScores();
+	    this.newScore = null;
 	  }
-	  updateHighScores(currentScore) {
-	    this.currentHighScores.push(currentScore);
-	    var scores = this.currentHighScores;
-	    var sortedScores = scores.sort(function (a, b) {
-	      return parseInt(b) - parseInt(a);
+
+	  updateHighScores(leaderName) {
+	    this.currentHighScores.push(leaderName + "~" + this.newScore);
+	    var scores = this.currentHighScores.map(function (score) {
+	      return score.split("~");
 	    });
-	    localStorage.setItem("highScores", sortedScores.slice(0, 9));
+
+	    var topScores = scores.sort(function (a, b) {
+	      return parseInt(b[1]) - parseInt(a[1]);
+	    }).slice(0, 10);
+
+	    this.currentHighScores = topScores.map(function (score) {
+	      return score.join("~");
+	    });
+
+	    localStorage.setItem("highScores", this.currentHighScores);
+	  }
+
+	  getLeaderName(score) {
+	    this.newScore = score;
+	    if (score > this.lowestScore() || this.roomAvailable()) {
+	      $(".score").remove();
+	      this.topScoreClick();
+	      $(".add-leader").show();
+	    }
+	  }
+
+	  topScoreClick() {
+	    $('.tab').removeClass("active-tab");
+	    $('#scoreboard-tab').addClass("active-tab");
+	    $('.menu').hide();
+	    $('.scoreboard').show();
+	    $('.scoreboard .command').hide();
 	  }
 
 	  getHighScores() {
 	    if (!localStorage.highScores) {
-	      localStorage.setItem("highScores", "0");
+	      localStorage.setItem("highScores", "Snake~0");
 	      return [localStorage.getItem("highScores")];
 	    } else {
 	      return localStorage.getItem("highScores").split(",");
 	    }
+	  }
+
+	  numHighScores() {
+	    return this.currentHighScores.length;
+	  }
+
+	  roomAvailable() {
+	    return this.numHighScores() < 10;
+	  }
+
+	  lowestScore() {
+	    return this.currentHighScores[this.numHighScores() - 1].split("~")[1];
 	  }
 	}
 
