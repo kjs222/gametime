@@ -1,12 +1,10 @@
 const chai = require('chai');
 const assert = chai.assert;
 const stub = require('./support/stub');
-
 const Render = require('../lib/render');
 const Segment = require('../lib/segment');
 const Snake = require('../lib/snake');
 const Food = require('../lib/food');
-
 
 describe("Render", function(){
 
@@ -54,7 +52,6 @@ describe("drawSnake()", function(){
     render.drawSnake(snake.tail);
     assert.equal(render.context.strokeRect.calls.length, 2);
     assert.equal(render.context.fillRect.calls.length, 1);
-
   });
 });
 
