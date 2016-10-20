@@ -1,7 +1,5 @@
 const chai = require('chai');
 const assert = chai.assert;
-const stub = require('./support/stub');
-
 const Menu = require('../lib/menu');
 const MenuTyper = require("../lib/menuTyper");
 const ScoreBoard = require("../lib/scoreBoard");

@@ -40,7 +40,10 @@
 
       <div class="game">
         <canvas id="canvas" height="500" width="900"></canvas>
-        <button type="button" id="restartButton">Click to Play</button>
+        <div id="start-buttons">
+          <button class="beginner start" type="button" target="0">Click for Novice Level</button>
+          <button class="advanced start " type="button" target="1">Click for Advanced Level</button>
+        </div>
       </div>
     </div>
 
@@ -58,12 +61,12 @@
           <div class="menu instructions">
             <p class="command"><span class="terminal">[snake]: ~$</span><span id="instructions-typer"></span><span class="new-cursor">|</span></p><br>
             <div id="instructions-post-type">
-              <p>Click on the start button to begin a new game. A decimal number will appear at the top of your screen.
-              Your goal is to convert this number to binary by eating food bits in the correct order.</p><br>
+              <p>Click on a start button to begin a game. A decimal number will appear at the top of your screen.
+              Convert this number to binary by eating food bits in the correct order.</p><br>
               <p>For example, if the number is 2, your snake should eat a 1 then a 0. Navigate the snake to the correct food bits with arrow keys.</p><br>
               <p>If you eat the correct food bit, your snake will grow. If you eat the incorrect food bit, your snake will lose segments.</p><br>
               <p>Once a number has been converted, a new decimal number will be provided.</p><br>
-              <p>Game ends if your snake hits a wall or loses all of his segments</p><br>
+              <p>Game ends if your snake hits a wall or loses all of his segments.  In advanced mode, game also ends if snake hits itself</p><br>
             </div>
           </div>
 

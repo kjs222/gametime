@@ -6,7 +6,6 @@ body {
 
 canvas {
   border: 1px solid;
-  // margin-top: 25px;
   margin-left: 35px;
   float: left;
   background: #333333;
@@ -23,8 +22,6 @@ canvas {
 
 .all-menus {
   margin-top: 45px;
-  // float: left;
-  // margin-left: 50px;
 }
 
 .menu {
@@ -102,7 +99,6 @@ canvas {
 }
 
 .tab-container{
-  // margin-top: -50px;
   margin: 0px;
   padding: 0px;
 }
@@ -132,17 +128,21 @@ canvas {
   color: gray;
 }
 
-#restartButton
-{
-  top: 425px;
-  left: 360px;
+#start-buttons{
   position: fixed;
-  height: 100px;
-  font-size: 40px;
-  font-family: courier;
+  top: 425px;
+  left: 100px;
+}
+.start {
+  height: 40px;
+  font-size: 20px;
+  font-family: monospace;
   color: #333333;
   background-color: #55b848;
+  margin: 20px;
+  width: 340px;
 }
+
 
 .active-tab {
   background-color: #D4D4D4;

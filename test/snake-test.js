@@ -1,7 +1,6 @@
 const chai = require('chai');
 const assert = chai.assert;
 const stub = require('./support/stub');
-
 const Snake = require('../lib/snake');
 const Segment = require('../lib/segment');
 const Game = require('../lib/game');
@@ -287,7 +286,12 @@ describe("hitItself()", function() {
   context("returns whether the snake hit iself or not", function() {
 
     it("returns true when the snake hitItself", function() {
-      let snake = new Snake();
+      let game = stub();
+      game.canvas = stub();
+      game.canvas.width = 100;
+      game.canvas.height = 100;
+      let snake = new Snake(game);
+      snake.game.level = 1;
       snake.startLength();
       snake.addSegment();
       snake.tail.x = snake.head.x
@@ -296,18 +300,29 @@ describe("hitItself()", function() {
     });
 
     it("returns false when the snake did NOT hitItself", function() {
-      let snake = new Snake();
+      let game = stub();
+      game.canvas = stub();
+      game.canvas.width = 100;
+      game.canvas.height = 100;
+      let snake = new Snake(game);
+      snake.game.level = 1;
       snake.startLength();
       snake.addSegment();
       assert.equal(snake.hitItself(), false);
     });
   });
 });
+
 describe("isDead()", function() {
   context("returns whether the snake is dead or not", function() {
 
     it("returns true when the snake has no more segments", function() {
-      let snake = new Snake();
+      let game = stub();
+      game.canvas = stub();
+      game.canvas.width = 100;
+      game.canvas.height = 100;
+      let snake = new Snake(game);
+      snake.game.level = 0;
       snake.head = null;
       assert.equal(snake.isDead(), true);
     });
@@ -331,17 +346,32 @@ describe("isDead()", function() {
       assert.notEqual(snake.isDead(), true);
     });
 
-    it("returns true when the snake hitItself", function() {
+    it("returns true when the snake hitItself and level is 1", function() {
       let game = stub();
       game.canvas = stub();
       game.canvas.width = 1000;
       game.canvas.height = 1000;
       let snake = new Snake(game);
+      snake.game.level = 1;
       snake.startLength();
       snake.addSegment();
       snake.tail.x = snake.head.x
       snake.tail.y = snake.head.y
       assert.equal(snake.isDead(), true);
+    });
+
+    it("returns false when the snake hitItself and level is 0", function() {
+      let game = stub();
+      game.canvas = stub();
+      game.canvas.width = 1000;
+      game.canvas.height = 1000;
+      let snake = new Snake(game);
+      snake.game.level = 0;
+      snake.startLength();
+      snake.addSegment();
+      snake.tail.x = snake.head.x
+      snake.tail.y = snake.head.y
+      assert.equal(snake.isDead(), false);
     });
 
     it("returns false when the snake did NOT hit itself, is not on wall", function() {
