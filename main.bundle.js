@@ -87,7 +87,7 @@
 	setupPregameDisplay();
 
 	window.addEventListener("keydown", function (e) {
-	  if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+	  if ([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
 	    e.preventDefault();
 	  }
 	}, false);
@@ -10675,7 +10675,6 @@
 	var UserInput = __webpack_require__(10);
 	var Food = __webpack_require__(11);
 	var Num = __webpack_require__(12);
-	// var scoreBoard = require("./scoreBoard")
 
 	class Game {
 	  constructor(canvas, context) {
@@ -10769,8 +10768,8 @@
 	  }
 
 	  updateSnake() {
-	    this.snake.moveSnake();
 	    this.snakeAteFood();
+	    this.snake.moveSnake();
 	    this.replenishFood();
 	  }
 
@@ -10829,7 +10828,7 @@
 	  drawSegment(segment, color) {
 	    this.context.strokeRect(segment.x, segment.y, segment.width, segment.height);
 	    this.context.lineWidth = 2;
-	    if (segment.prev == null) {
+	    if (segment.prev === null) {
 	      this.context.fillRect(segment.x, segment.y, segment.width, segment.height);
 	    } else if (color) {
 	      this.context.fillStyle = color;
@@ -10913,7 +10912,6 @@
 	  displayEchoedBinary(currentNumber) {
 	    $(".status").append("<p class='binary'>" + currentNumber.binary + "</p>");
 	  }
-
 	}
 
 	module.exports = Render;
@@ -10940,6 +10938,10 @@
 	  }
 
 	  moveHead() {
+	    if (this.head === null) {
+	      return;
+	    }
+
 	    switch (this.direction) {
 	      case 'left':
 	        this.head.x = this.head.x - this.head.width;
@@ -11032,7 +11034,9 @@
 	  }
 
 	  loseTwoSegment() {
-	    if (this.tail.prev.prev) {
+	    if (this.tail.prev === null) {
+	      this.head = null;
+	    } else if (this.tail.prev.prev) {
 	      this.tail = this.tail.prev.prev;
 	    } else {
 	      this.head = null;
@@ -11141,7 +11145,6 @@
 	  isSolved() {
 	    return this.bitsToEat.length < 1;
 	  }
-
 	}
 
 	module.exports = Num;
@@ -11229,7 +11232,6 @@
 	    });
 	    this.menuTyper.typeStuff(" cat leaderboard.txt", $("#scoreboard-typer"), "scoreboard");
 	  }
-
 	}
 
 	module.exports = Menu;
@@ -11267,7 +11269,6 @@
 	    }
 	    typer();
 	  }
-
 	}
 
 	module.exports = MenuTyper;
@@ -11338,7 +11339,6 @@
 	  lowestScore() {
 	    return this.currentHighScores[this.numHighScores() - 1].split("~")[1];
 	  }
-
 	}
 
 	module.exports = ScoreBoard;

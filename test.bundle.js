@@ -10298,7 +10298,6 @@
 	var UserInput = __webpack_require__(10);
 	var Food = __webpack_require__(11);
 	var Num = __webpack_require__(12);
-	// var scoreBoard = require("./scoreBoard")
 
 	class Game {
 	  constructor(canvas, context) {
@@ -10392,8 +10391,8 @@
 	  }
 
 	  updateSnake() {
-	    this.snake.moveSnake();
 	    this.snakeAteFood();
+	    this.snake.moveSnake();
 	    this.replenishFood();
 	  }
 
@@ -10452,7 +10451,7 @@
 	  drawSegment(segment, color) {
 	    this.context.strokeRect(segment.x, segment.y, segment.width, segment.height);
 	    this.context.lineWidth = 2;
-	    if (segment.prev == null) {
+	    if (segment.prev === null) {
 	      this.context.fillRect(segment.x, segment.y, segment.width, segment.height);
 	    } else if (color) {
 	      this.context.fillStyle = color;
@@ -10536,7 +10535,6 @@
 	  displayEchoedBinary(currentNumber) {
 	    $(".status").append("<p class='binary'>" + currentNumber.binary + "</p>");
 	  }
-
 	}
 
 	module.exports = Render;
@@ -10563,6 +10561,10 @@
 	  }
 
 	  moveHead() {
+	    if (this.head === null) {
+	      return;
+	    }
+
 	    switch (this.direction) {
 	      case 'left':
 	        this.head.x = this.head.x - this.head.width;
@@ -10655,7 +10657,9 @@
 	  }
 
 	  loseTwoSegment() {
-	    if (this.tail.prev.prev) {
+	    if (this.tail.prev === null) {
+	      this.head = null;
+	    } else if (this.tail.prev.prev) {
 	      this.tail = this.tail.prev.prev;
 	    } else {
 	      this.head = null;
@@ -10764,7 +10768,6 @@
 	  isSolved() {
 	    return this.bitsToEat.length < 1;
 	  }
-
 	}
 
 	module.exports = Num;
@@ -10852,7 +10855,6 @@
 	    });
 	    this.menuTyper.typeStuff(" cat leaderboard.txt", $("#scoreboard-typer"), "scoreboard");
 	  }
-
 	}
 
 	module.exports = Menu;
@@ -10890,7 +10892,6 @@
 	    }
 	    typer();
 	  }
-
 	}
 
 	module.exports = MenuTyper;
@@ -10961,7 +10962,6 @@
 	  lowestScore() {
 	    return this.currentHighScores[this.numHighScores() - 1].split("~")[1];
 	  }
-
 	}
 
 	module.exports = ScoreBoard;
@@ -11270,13 +11270,7 @@
 
 	const chai = __webpack_require__(26);
 	const assert = chai.assert;
-
 	const Segment = __webpack_require__(9);
-
-	// beforeEach(function(){
-	//   var seg = new Segment(10, 10);
-	//   return seg
-	// })
 
 	describe("Segment", function () {
 
@@ -19628,7 +19622,6 @@
 	const chai = __webpack_require__(26);
 	const assert = chai.assert;
 	const stub = __webpack_require__(67);
-
 	const Snake = __webpack_require__(8);
 	const Segment = __webpack_require__(9);
 	const Game = __webpack_require__(6);
@@ -19909,6 +19902,7 @@
 	    assert.equal(snake.ateFood(allFood), false);
 	  });
 	});
+
 	describe("isDead()", function () {
 	  context("returns whether the snake is dead or not", function () {
 
@@ -19997,7 +19991,9 @@
 	        if (callback) {
 	          ret = callback.apply(this, args);
 	        }
-	        if (returnValue) return returnValue;
+	        if (returnValue) {
+	          return returnValue;
+	        }
 	        return ret;
 	      };
 	      this[name].calls = [];
@@ -20058,7 +20054,6 @@
 	const chai = __webpack_require__(26);
 	const assert = chai.assert;
 	const stub = __webpack_require__(67);
-
 	const Render = __webpack_require__(7);
 	const Segment = __webpack_require__(9);
 	const Snake = __webpack_require__(8);
@@ -20135,7 +20130,6 @@
 
 	let chai = __webpack_require__(26);
 	let assert = chai.assert;
-
 	const UserInput = __webpack_require__(10);
 	const Game = __webpack_require__(6);
 
@@ -20173,7 +20167,6 @@
 	const chai = __webpack_require__(26);
 	const assert = chai.assert;
 	const stub = __webpack_require__(67);
-
 	const Game = __webpack_require__(6);
 	const Snake = __webpack_require__(8);
 	const Food = __webpack_require__(11);
@@ -20631,7 +20624,6 @@
 	const chai = __webpack_require__(26);
 	const assert = chai.assert;
 	const ScoreBoard = __webpack_require__(15);
-	const stub = __webpack_require__(67);
 
 	describe("ScoreBoard", function () {
 
@@ -20715,6 +20707,7 @@
 	    scoreBoard.newScore = 9;
 	    scoreBoard.updateHighScores("Jenny");
 	    assert.equal(scoreBoard.currentHighScores.length, 10);
+	    localStorage.clear();
 	  });
 	});
 
@@ -20724,8 +20717,6 @@
 
 	const chai = __webpack_require__(26);
 	const assert = chai.assert;
-	const stub = __webpack_require__(67);
-
 	const Menu = __webpack_require__(13);
 	const MenuTyper = __webpack_require__(14);
 	const ScoreBoard = __webpack_require__(15);
