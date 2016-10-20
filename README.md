@@ -1,10 +1,15 @@
 # Binary Snake
+Binary snake is like the [traditional snake game](https://en.wikipedia.org/wiki/Snake_(video_game) but instead of eating food on your screen you eat bits in order to convert a number from decimal to binary.
 
+![snake](http://g.recordit.co/aA9yqHeTEP.gif)
+
+You can click [here](https://kjs222.github.io/gametime/) to play.
 
 ### Initial setup to play game locally
 
 Clone
 ```
+git clone git@github.com:kjs222/gametime.git
 ```
 To install the dependencies:
 
@@ -25,14 +30,13 @@ Once the server is running, you can visit:
 
 To build the static files:
 
-```js
+```
 npm run build
 ```
 
-
 To run tests in Node:
 
-```js
+```
 npm test
 ```
 
