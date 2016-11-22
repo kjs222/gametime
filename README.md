@@ -1,5 +1,5 @@
 # Binary Snake
-Binary snake is like the [traditional snake game](https://en.wikipedia.org/wiki/Snake_(video_game) but instead of eating food on your screen you eat bits in order to convert a number from decimal to binary.
+Binary snake is like the [traditional snake game](https://en.wikipedia.org/wiki/Snake_%28video_game%29) but instead of eating food on your screen you eat bits in order to convert a number from decimal to binary.
 
 ![snake](http://g.recordit.co/aA9yqHeTEP.gif)
 
